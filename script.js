@@ -9,6 +9,10 @@ window.addEventListener("scroll", setHeaderState, { passive: true });
 
 const reveals = document.querySelectorAll(".reveal");
 
+reveals.forEach((element, index) => {
+  element.style.transitionDelay = `${Math.min(index * 35, 180)}ms`;
+});
+
 if ("IntersectionObserver" in window) {
   const observer = new IntersectionObserver(
     (entries) => {
@@ -26,3 +30,19 @@ if ("IntersectionObserver" in window) {
 } else {
   reveals.forEach((element) => element.classList.add("is-visible"));
 }
+
+document.querySelectorAll("[data-accordion]").forEach((accordion) => {
+  accordion.addEventListener("toggle", (event) => {
+    const activeItem = event.target;
+
+    if (!(activeItem instanceof HTMLDetailsElement) || !activeItem.open) {
+      return;
+    }
+
+    accordion.querySelectorAll("details").forEach((item) => {
+      if (item !== activeItem) {
+        item.removeAttribute("open");
+      }
+    });
+  }, true);
+});
