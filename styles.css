@@ -304,47 +304,14 @@ h3 {
   overflow: hidden;
 }
 
-.portrait-placeholder {
-  position: relative;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 28px;
-  background:
-    radial-gradient(circle at 50% 16%, rgba(244, 241, 234, 0.28), transparent 26%),
-    linear-gradient(160deg, #3b3b37 0%, #181818 58%, #0a0a0a 100%);
+.hero-reel-wrap {
+  width: min(360px, 72vw);
+  aspect-ratio: 9 / 16;
 }
 
-.portrait-placeholder img,
-.founder-placeholder img {
-  position: absolute;
-  inset: 0;
+.hero-reel {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-}
-
-.portrait-placeholder img {
-  object-position: 68% 42%;
-  filter: saturate(0.94) contrast(1.04);
-}
-
-.portrait-placeholder::after,
-.founder-placeholder::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(5, 5, 5, 0.82), transparent 58%);
-}
-
-.portrait-placeholder strong {
-  position: relative;
-  z-index: 1;
-  margin-top: 12px;
-  color: var(--paper);
-  font-size: 12px;
-  text-transform: uppercase;
 }
 
 .hero-note {
@@ -378,7 +345,6 @@ h3 {
 .intro,
 .opportunities,
 .founder,
-.reels,
 .booking,
 .process,
 .stats {
@@ -604,62 +570,21 @@ h3 {
 }
 
 .founder-media {
-  min-height: 540px;
-  background: #1a1a1a;
-  overflow: hidden;
+  width: min(420px, 100%);
+  min-height: auto;
+  background: transparent;
 }
 
-.founder-placeholder {
-  position: relative;
-  min-height: 540px;
-  display: flex;
-  align-items: flex-end;
-  padding: 28px;
-  overflow: hidden;
-  background:
-    linear-gradient(to top, rgba(5, 5, 5, 0.92), transparent 44%),
-    linear-gradient(135deg, #222 0%, #5f5c52 100%);
+.founder-reel {
+  width: 100%;
 }
 
-.founder-placeholder img {
-  object-position: center 34%;
-  filter: saturate(0.96) contrast(1.03);
-}
-
-.founder-placeholder span {
-  position: relative;
-  z-index: 1;
-  color: var(--paper);
-  font-size: 12px;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.reels {
-  border-bottom: 1px solid var(--line-dark);
-}
-
-.reels-copy {
-  max-width: 920px;
-  margin-bottom: clamp(34px, 5vw, 64px);
-}
-
-.reels-copy p {
-  max-width: 620px;
-  color: rgba(244, 241, 234, 0.76);
-  font-size: clamp(18px, 2vw, 24px);
-  line-height: 1.38;
-}
-
-.reel-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(260px, 420px));
-  gap: clamp(22px, 4vw, 54px);
-  align-items: start;
-}
-
-.reel-item {
-  max-width: 420px;
+.reel-caption {
+  margin: 0 0 14px;
+  color: #4c4840;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.35;
 }
 
 .reel-frame {
@@ -719,11 +644,13 @@ h3 {
 .reel-cover em {
   position: absolute;
   left: 20px;
+  right: 20px;
   bottom: 18px;
   color: rgba(244, 241, 234, 0.7);
   font-size: 12px;
   font-style: normal;
   font-weight: 900;
+  line-height: 1.2;
   text-transform: uppercase;
 }
 
@@ -734,23 +661,6 @@ h3 {
 
 .reel-frame.is-loaded .reel-cover {
   display: none;
-}
-
-.reel-item h3 {
-  margin: 20px 0 10px;
-  font-size: clamp(22px, 2.2vw, 32px);
-}
-
-.reel-item p {
-  margin: 0;
-  color: rgba(244, 241, 234, 0.7);
-  font-size: clamp(16px, 1.5vw, 19px);
-  line-height: 1.34;
-}
-
-.reels-cta {
-  width: fit-content;
-  margin-top: clamp(30px, 4vw, 48px);
 }
 
 .booking {
@@ -851,12 +761,7 @@ h3 {
   .stats,
   .process,
   .founder,
-  .reels,
   .booking {
-    grid-template-columns: 1fr;
-  }
-
-  .reel-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1006,7 +911,6 @@ h3 {
   .intro,
   .opportunities,
   .founder,
-  .reels,
   .booking,
   .process,
   .stats {
@@ -1026,17 +930,22 @@ h3 {
     padding-left: 52px;
   }
 
-  .founder-media,
-  .founder-placeholder {
-    min-height: 390px;
-  }
-
-  .reel-item {
-    max-width: none;
-  }
-
-  .reels-cta {
+  .founder-media {
     width: 100%;
+    max-width: 390px;
+    margin: 0 auto;
+  }
+
+  .founder-copy {
+    order: -1;
+  }
+
+  .founder {
+    gap: 28px;
+  }
+
+  .reel-caption {
+    font-size: 13px;
   }
 
   .calendly-shell {
