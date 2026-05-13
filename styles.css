@@ -460,7 +460,7 @@ h3 {
   display: grid;
   grid-template-columns: minmax(0, 0.34fr) minmax(0, 1fr);
   gap: clamp(28px, 5vw, 72px);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-dark);
 }
 
 .faq-head {
@@ -475,11 +475,12 @@ h3 {
 }
 
 .faq-list {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--line-dark);
 }
 
 .faq-item {
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-dark);
+  color: var(--paper);
 }
 
 .faq-item summary {
@@ -490,6 +491,7 @@ h3 {
   grid-template-columns: minmax(0, 1fr) 34px;
   gap: 16px;
   align-items: center;
+  color: var(--paper);
 }
 
 .faq-item summary::-webkit-details-marker {
@@ -497,7 +499,7 @@ h3 {
 }
 
 .faq-item summary span {
-  color: var(--ink);
+  color: var(--paper);
   font-size: clamp(17px, 1.7vw, 22px);
   font-weight: 800;
   line-height: 1.22;
@@ -535,7 +537,7 @@ h3 {
   margin: 0;
   max-width: 720px;
   padding: 0 44px 24px 0;
-  color: #4c4840;
+  color: rgba(244, 241, 234, 0.7);
   font-size: clamp(16px, 1.4vw, 19px);
   line-height: 1.46;
 }
