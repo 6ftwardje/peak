@@ -141,3 +141,33 @@ if ("IntersectionObserver" in window) {
     reelObserver.observe(frame);
   });
 }
+
+const stickyCta = document.querySelector(".sticky-cta");
+
+if (stickyCta && "IntersectionObserver" in window) {
+  const heroSection = document.querySelector(".hero");
+  const bookingSection = document.querySelector("#plan");
+  const hideZones = [heroSection, bookingSection].filter(Boolean);
+
+  if (hideZones.length) {
+    const visibleInZones = new WeakSet();
+
+    const stickyObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            visibleInZones.add(entry.target);
+          } else {
+            visibleInZones.delete(entry.target);
+          }
+        });
+
+        const shouldHide = hideZones.some((zone) => visibleInZones.has(zone));
+        stickyCta.classList.toggle("is-hidden", shouldHide);
+      },
+      { threshold: 0.2 }
+    );
+
+    hideZones.forEach((zone) => stickyObserver.observe(zone));
+  }
+}
