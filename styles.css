@@ -411,7 +411,7 @@ h3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(20px, 4vw, 56px);
-  align-items: center;
+  align-items: start;
 }
 
 .proof-strip-item {
