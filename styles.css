@@ -1,0 +1,558 @@
+/* ============================================================
+   Peak Automations — main site
+   Vanilla CSS. Design tokens first, then components.
+   ============================================================ */
+
+/* ---- Fonts ---- */
+@font-face {
+  font-family: "Clash Grotesk";
+  src: url("assets/fonts/ClashGrotesk-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Clash Grotesk";
+  src: url("assets/fonts/ClashGrotesk-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-display: swap;
+}
+
+/* ---- Tokens ---- */
+:root {
+  --bg: #040404;
+  --bg-soft: #0c0d0c;
+  --text: #f4f5f4;
+  --text-dim: #9a9b9a;
+  --accent: #20e383;
+  --line: rgba(255, 255, 255, 0.1);
+
+  --container: 1240px;
+  --pad-x: clamp(20px, 5vw, 72px);
+  --section-y: clamp(72px, 11vw, 160px);
+
+  --font: "Clash Grotesk", "Inter", system-ui, -apple-system, sans-serif;
+}
+
+/* ---- Reset ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+ul {
+  list-style: none;
+}
+
+/* ---- Layout ---- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--pad-x);
+}
+.section {
+  padding-block: var(--section-y);
+}
+.section--tight {
+  padding-block: clamp(48px, 7vw, 96px);
+}
+
+/* ---- Eyebrow marker ---- */
+.marker {
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 1.6em;
+}
+
+/* ---- Typography ---- */
+.h-display {
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  font-size: clamp(3rem, 9vw, 7rem);
+}
+.h-xl {
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+}
+.h-lg {
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+.accent {
+  color: var(--accent);
+}
+.lead {
+  color: var(--text-dim);
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  max-width: 42ch;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  padding: 0;
+  color: var(--text);
+  transition: color 0.25s ease, gap 0.25s ease;
+}
+.btn::before {
+  content: "[";
+  color: var(--accent);
+}
+.btn::after {
+  content: "]";
+  color: var(--accent);
+}
+.btn .btn__label {
+  transition: color 0.25s ease;
+}
+.btn:hover {
+  gap: 0.75em;
+}
+.btn:hover .btn__label {
+  color: var(--accent);
+}
+.btn--solid {
+  background: var(--accent);
+  color: #041007;
+  padding: 0.85em 1.4em;
+  border-radius: 100px;
+}
+.btn--solid::before,
+.btn--solid::after {
+  content: none;
+}
+.btn--solid:hover {
+  filter: brightness(1.08);
+}
+
+/* ============================================================
+   Header / nav
+   ============================================================ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(4, 4, 4, 0.7);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.site-header.is-scrolled {
+  border-bottom-color: var(--line);
+}
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 20px;
+}
+.brand img {
+  height: 42px;
+  width: auto;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+}
+.nav a {
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  transition: color 0.2s ease;
+}
+.nav a:hover,
+.nav a[aria-current="page"] {
+  color: var(--accent);
+}
+.nav__toggle {
+  display: none;
+}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 88vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+}
+.hero__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(4, 4, 4, 0.4) 0%,
+    rgba(4, 4, 4, 0.1) 40%,
+    rgba(4, 4, 4, 0.85) 100%
+  );
+}
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-bottom: clamp(48px, 8vw, 110px);
+  padding-top: 120px;
+}
+.hero h1 {
+  max-width: 15ch;
+  margin-bottom: 0.6em;
+}
+.hero .btn {
+  font-size: 1.1rem;
+}
+
+/* ============================================================
+   Intro + stats
+   ============================================================ */
+.intro__statement {
+  max-width: 24ch;
+  margin-bottom: clamp(48px, 7vw, 96px);
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  border-top: 1px solid var(--line);
+  padding-top: clamp(32px, 4vw, 56px);
+}
+.stat__value {
+  font-weight: 500;
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.stat__value .accent {
+  color: var(--accent);
+}
+.stat__label {
+  color: var(--text);
+  font-size: 1.05rem;
+  margin-top: 0.4em;
+}
+.stat__sub {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  margin-top: 0.8em;
+  max-width: 34ch;
+}
+
+/* ============================================================
+   Values
+   ============================================================ */
+.values__text {
+  max-width: 20ch;
+}
+.values__text .accent {
+  color: var(--accent);
+}
+
+/* ============================================================
+   Services + Cases (shared list pattern)
+   ============================================================ */
+.section-head {
+  margin-bottom: clamp(40px, 6vw, 80px);
+}
+.list {
+  display: grid;
+  gap: 0;
+}
+.list__item {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(20px, 5vw, 80px);
+  padding-block: clamp(28px, 3.5vw, 48px);
+  border-top: 1px solid var(--line);
+}
+.list__item:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.list__num {
+  color: var(--accent);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  margin-right: 0.6em;
+}
+.list__title {
+  font-weight: 500;
+  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.list__body {
+  color: var(--text-dim);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  max-width: 46ch;
+  align-self: center;
+}
+.list__result {
+  display: block;
+  color: var(--text);
+  font-weight: 500;
+  margin-bottom: 0.5em;
+}
+
+/* ============================================================
+   CTA (pilot)
+   ============================================================ */
+.cta {
+  border-top: 1px solid var(--line);
+}
+.cta__inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.cta h2 {
+  max-width: 16ch;
+}
+.cta .btn {
+  font-size: 1.4rem;
+}
+
+/* ============================================================
+   Cases page — founder header + channels
+   ============================================================ */
+.founder__grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
+}
+.founder__body p {
+  color: var(--text-dim);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  max-width: 48ch;
+  margin-bottom: 1.4em;
+}
+.channels {
+  display: flex;
+  gap: clamp(20px, 3vw, 40px);
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+  padding-top: clamp(28px, 3vw, 44px);
+  margin-top: clamp(40px, 6vw, 72px);
+}
+.channel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+.channel__plat {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+.channel__handle {
+  font-size: 1.15rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.channel:hover .channel__handle {
+  color: var(--accent);
+}
+
+/* ============================================================
+   Contact page
+   ============================================================ */
+.contact__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+.contact__meta p {
+  color: var(--text-dim);
+  margin-bottom: 0.4em;
+}
+.contact__meta a:hover {
+  color: var(--accent);
+}
+.form {
+  display: grid;
+  gap: 18px;
+}
+.form label {
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 0.5em;
+}
+.form input,
+.form textarea {
+  width: 100%;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.9em 1em;
+  transition: border-color 0.2s ease;
+}
+.form input:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.form textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+.form__note {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+.form__note a {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.footer {
+  border-top: 1px solid var(--line);
+  padding-block: clamp(48px, 6vw, 80px);
+}
+.footer__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+.footer__col h4 {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 1.2em;
+  font-weight: 400;
+}
+.footer__col a,
+.footer__col p {
+  display: block;
+  color: var(--text);
+  margin-bottom: 0.6em;
+  transition: color 0.2s ease;
+}
+.footer__col a:hover {
+  color: var(--accent);
+}
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: clamp(40px, 6vw, 72px);
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ============================================================
+   Reveal animation
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 860px) {
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .list__item,
+  .founder__grid,
+  .contact__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .cta__inner {
+    align-items: flex-start;
+  }
+  .nav {
+    gap: 1.4rem;
+  }
+}
+@media (max-width: 560px) {
+  .footer__grid {
+    grid-template-columns: 1fr;
+  }
+}
