@@ -3,10 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Peak Automations, AI systems for growing businesses</title>
     <meta
       name="description"
-      content="We build AI systems that connect your existing tools to how your business actually runs and take the repetitive work off your team. Proven before they go live."
+      content="Peak Automations builds AI systems that connect your existing tools to how your business actually runs, and take the repetitive work off your team."
     />
     <meta property="og:title" content="Peak Automations" />
     <meta
@@ -14,202 +13,336 @@
       content="AI systems that connect your tools to how your business runs, and take the repetitive work off your team."
     />
     <meta property="og:type" content="website" />
+    <title>Peak Automations — AI systems for growing businesses</title>
     <link rel="icon" href="assets/img/logo-mark.svg" />
+    <link rel="preconnect" href="https://player.vimeo.com" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body id="top">
-    <!-- Header -->
     <header class="site-header" data-header>
-      <div class="container site-header__inner">
-        <a class="brand" href="index.html" aria-label="Peak Automations">
-          <img src="assets/img/logo-full-white.svg" alt="Peak Automations" />
-        </a>
-        <nav class="nav" aria-label="Main">
-          <a href="index.html" aria-current="page">Home</a>
-          <a href="cases.html">Cases</a>
-          <a href="contact.html">Contact</a>
-        </nav>
-      </div>
+      <a class="brand" href="#top" aria-label="Peak Automations">
+        <img src="assets/img/logo-full-white.svg" alt="Peak Automations" />
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#work">Work</a>
+        <a href="#approach">Approach</a>
+        <a href="#content">Content</a>
+        <a class="nav-cta" href="#contact">Let's talk</a>
+      </nav>
     </header>
 
     <main>
-      <!-- Hero -->
-      <section class="hero">
-        <div class="hero__bg" aria-hidden="true">
-          <img src="assets/img/hero-bg.jpg" alt="" />
+      <!-- 1. HERO -->
+      <section class="hero section-dark" aria-labelledby="hero-title">
+        <div class="mobile-hero-bg" aria-hidden="true">
+          <video class="mobile-hero-video" autoplay muted loop playsinline poster="assets/hero-mobile-poster.jpg">
+            <source src="assets/hero-mobile.mp4" type="video/mp4" />
+          </video>
+          <div class="mobile-video-placeholder"></div>
         </div>
-        <div class="container hero__inner">
-          <h1 class="h-display reveal">
-            Your tools work.<br /><span class="accent">The context is missing.</span>
-          </h1>
-          <a class="btn reveal" href="#work"
-            ><span class="btn__label">See the work</span></a
+        <div class="hero-copy reveal">
+          <p class="eyebrow">[ AI systems for growing businesses ]</p>
+          <h1 id="hero-title">Your tools work. The context is missing.</h1>
+          <p class="hero-lede">
+            We build the layer that connects your tools to how your business actually runs,
+            and takes the repetitive work off your team.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#contact">Let's talk</a>
+            <span>For owners of a running business who want AI that pays for itself.</span>
+          </div>
+          <a class="whatsapp-link" href="https://wa.me/32498573819?text=Hi%20Maxim%2C%20I%20have%20a%20question%20about%20AI%20for%20my%20business" target="_blank" rel="noopener">
+            Or send me a message on WhatsApp
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <div class="hero-visual reveal" aria-label="Reel about AI systems">
+          <div class="live-signal" aria-hidden="true">
+            <span></span>
+            <p>AI in practice</p>
+          </div>
+          <div class="portrait-frame hero-reel-wrap">
+            <div
+              class="reel-frame hero-reel"
+              data-video-src="https://player.vimeo.com/video/1189067684?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+              data-video-title="Complexity doesn't sell"
+            >
+              <button class="reel-cover" type="button" aria-label="Play reel">
+                <span></span>
+                <em>Complexity doesn't sell</em>
+              </button>
+            </div>
+          </div>
+          <div class="hero-note">
+            <span>01</span>
+            <p>The first AI layer should solve your most painful problem.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. STATS -->
+      <section class="proof-strip section-dark" aria-label="Results in numbers">
+        <div class="proof-strip-grid reveal">
+          <div class="proof-strip-item">
+            <strong>€300K+</strong>
+            <span>in generated opportunities</span>
+          </div>
+          <div class="proof-strip-item">
+            <strong>97%</strong>
+            <span>calculation accuracy</span>
+          </div>
+          <div class="proof-strip-item">
+            <strong>~70%</strong>
+            <span>faster quotes</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. SERVICES -->
+      <section id="services" class="deliverables" aria-labelledby="services-title">
+        <div class="deliverables-head reveal">
+          <p class="eyebrow eyebrow-dark">[ what we build ]</p>
+          <h2 id="services-title">Systems, not tools.</h2>
+          <p class="deliverables-note">On top of the software you already use. A human watches the output.</p>
+        </div>
+        <ul class="deliverables-list reveal">
+          <li class="deliverable">
+            <span class="deliverable-index">01</span>
+            <div class="deliverable-body">
+              <h3>Documents that read themselves</h3>
+              <p>Quote requests, specs and plans arrive by mail and get read, checked and turned into a structured file automatically. Every value traces back to its source. No more retyping.</p>
+            </div>
+          </li>
+          <li class="deliverable">
+            <span class="deliverable-index">02</span>
+            <div class="deliverable-body">
+              <h3>Systems that finally connect</h3>
+              <p>Your CRM, mail, Drive and tools stay where they are. We build the layer that links them, so data is entered once and stays correct everywhere. No more copy-paste.</p>
+            </div>
+          </li>
+          <li class="deliverable">
+            <span class="deliverable-index">03</span>
+            <div class="deliverable-body">
+              <h3>Agents for the work that repeats</h3>
+              <p>Reports, follow-up and internal updates that look the same every week run on agents that write in your voice and get checked before they go out. No more Monday-morning admin.</p>
+            </div>
+          </li>
+          <li class="deliverable">
+            <span class="deliverable-index">04</span>
+            <div class="deliverable-body">
+              <h3>Proof before you commit</h3>
+              <p>Every system runs beside your manual process first. We measure the gap, tune it through a feedback loop, and go live only at an agreed accuracy. No black boxes.</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 4. WORK -->
+      <section id="work" class="proof section-dark" aria-labelledby="work-title">
+        <div class="proof-heading reveal">
+          <p class="eyebrow">[ selected work ]</p>
+          <h2 id="work-title">Systems that run every day.</h2>
+          <p>Anonymized, but the numbers are real.</p>
+        </div>
+        <div class="proof-grid">
+          <article class="proof-item reveal">
+            <span class="proof-tag">Manufacturer of building products</span>
+            <strong>97% / €70K</strong>
+            <span class="proof-stat-context">accuracy, and around €70,000 saved per year</span>
+            <p class="proof-system">Quote requests are read from the inbox, checked, and turned into a calculation file, with a human approving the result.</p>
+            <p class="proof-detail">From hours of manual work per file to minutes, without losing the calculator's judgment.</p>
+          </article>
+          <article class="proof-item reveal">
+            <span class="proof-tag">Installer</span>
+            <strong>~70%</strong>
+            <span class="proof-stat-context">faster quotes, margin visible per project</span>
+            <p class="proof-system">CRM, tracking, payroll, mail and website connected into one workspace, from the first enquiry to per-project margin.</p>
+            <p class="proof-detail">Five separate systems brought into a single flow, with a Company Brain underneath.</p>
+          </article>
+          <article class="proof-item reveal">
+            <span class="proof-tag">Entrepreneurs' community</span>
+            <strong>€300K+</strong>
+            <span class="proof-stat-context">in generated opportunities</span>
+            <p class="proof-system">The full outbound engine: lists cleaned and enriched, do-not-contact suppression, segmented campaigns with follow-up.</p>
+            <p class="proof-detail">From cold lists nobody used to booked, qualified conversations.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- 5. APPROACH -->
+      <section id="approach" class="founder" aria-labelledby="approach-title">
+        <div class="founder-media reveal">
+          <p class="reel-caption">Watch: what a Company Brain is, and why it matters.</p>
+          <!-- Replace with Maxim's Instagram/TikTok Company Brain video (Mux playback-id or IG/TikTok embed). -->
+          <div
+            class="reel-frame founder-reel"
+            data-video-src=""
+            data-video-title="What a Company Brain is"
           >
+            <button class="reel-cover" type="button" aria-label="Play: what a Company Brain is">
+              <span></span>
+              <em>What a Company Brain is</em>
+            </button>
+          </div>
+        </div>
+        <div class="founder-copy reveal">
+          <div class="section-label">[ how we work ]</div>
+          <h2 id="approach-title">What a Company Brain is.</h2>
+          <p>
+            Every business runs on knowledge that only lives in people's heads: how a quote
+            really gets calculated, which exceptions matter, how a difficult client is handled.
+            It works, until someone leaves or you try to scale. It is also why AI projects stall:
+            a model is only as good as the context it can reach, and when that context is
+            scattered across inboxes, spreadsheets and individual memory, AI has nothing solid to
+            stand on.
+          </p>
+          <p>
+            A Company Brain is where that knowledge finally lives: one structured, queryable place
+            that every automation builds on. We get the knowledge out of people's heads and into a
+            system while solving a real problem, so it pays for itself as it grows. Each project
+            makes the next one faster and cheaper, because the brain keeps what it learned.
+          </p>
         </div>
       </section>
 
-      <!-- Intro + stats -->
-      <section class="section container">
-        <h2 class="h-xl intro__statement reveal">
-          The tools already exist.
-          <span class="accent">What is missing is your company's context.</span>
-          We build the layer in between:
-          <span class="accent">systems that connect your mail, CRM and documents</span>
-          and <span class="accent">take the repetitive work off your team</span>, so
-          people decide instead of retype.
-        </h2>
-
-        <div class="stats reveal">
-          <div class="stat">
-            <div class="stat__value"><span class="accent">97%</span></div>
-            <div class="stat__label">accuracy</div>
-            <p class="stat__sub">
-              the measured accuracy of our calculation system after its test phase, on
-              documents that set the quote price directly.
-            </p>
-          </div>
-          <div class="stat">
-            <div class="stat__value"><span class="accent">&euro;70K</span></div>
-            <div class="stat__label">saved per year</div>
-            <p class="stat__sub">
-              what one automated calculation flow returns to a manufacturer each year in
-              recovered time.
-            </p>
-          </div>
-          <div class="stat">
-            <div class="stat__value"><span class="accent">70%</span></div>
-            <div class="stat__label">faster quotes</div>
-            <p class="stat__sub">
-              how much faster quotes go out for an installer since plan, take-off and
-              pricing live in one flow.
-            </p>
-          </div>
+      <!-- 6. FOLLOW THE WORK -->
+      <section id="content" class="channels" aria-labelledby="content-title">
+        <div class="section-head reveal">
+          <p class="section-label">[ where to find me ]</p>
+          <h2 id="content-title">Follow the work.</h2>
+        </div>
+        <div class="channels-grid reveal">
+          <a class="channel-card" href="https://www.instagram.com/maxim.vandycke/" target="_blank" rel="noopener">
+            <span class="channel-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </span>
+            <span class="channel-arrow" aria-hidden="true">↗</span>
+            <span class="channel-name">Instagram</span>
+            <span class="channel-handle">@maxim.vandycke</span>
+          </a>
+          <a class="channel-card" href="https://www.tiktok.com/@maxim.vandycke" target="_blank" rel="noopener">
+            <span class="channel-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 3c.3 2.1 1.6 3.6 3.5 3.9v2.6c-1.3.1-2.5-.3-3.6-1v5.9c0 3.2-2.4 5.6-5.5 5.6A5.4 5.4 0 0 1 5.5 14c0-3 2.3-5.4 5.3-5.4.3 0 .6 0 .9.1v2.7c-.3-.1-.6-.2-.9-.2-1.5 0-2.7 1.3-2.7 2.8s1.2 2.8 2.7 2.8c1.6 0 2.8-1.2 2.8-3V3h2.9Z"/></svg>
+            </span>
+            <span class="channel-arrow" aria-hidden="true">↗</span>
+            <span class="channel-name">TikTok</span>
+            <span class="channel-handle">@maxim.vandycke</span>
+          </a>
+          <a class="channel-card" href="https://www.linkedin.com/in/maximvandycke/" target="_blank" rel="noopener">
+            <span class="channel-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 5a1.94 1.94 0 1 1-3.88 0 1.94 1.94 0 0 1 3.88 0ZM3.3 8.5h3.3V21H3.3V8.5Zm5.6 0h3.16v1.7h.05c.44-.8 1.5-1.7 3.1-1.7 3.3 0 3.9 2.1 3.9 4.9V21h-3.3v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9V21H8.9V8.5Z"/></svg>
+            </span>
+            <span class="channel-arrow" aria-hidden="true">↗</span>
+            <span class="channel-name">LinkedIn</span>
+            <span class="channel-handle">/in/maximvandycke</span>
+          </a>
         </div>
       </section>
 
-      <!-- Values -->
-      <section class="section--tight container">
-        <p class="h-lg values__text reveal">
-          We build systems that actually run in production, on the software you already
-          use. No theoretical flows or empty tools, just work that genuinely takes tasks
-          off your team's plate.
-        </p>
-      </section>
-
-      <!-- Services -->
-      <section class="section container">
-        <div class="section-head reveal"><p class="marker">[our services]</p></div>
-        <div class="list">
-          <div class="list__item reveal">
-            <h3 class="list__title"><span class="list__num">01</span>Documents that read themselves</h3>
-            <p class="list__body">
-              Quote requests, specs and plans arrive by mail and get read, checked and
-              turned into a structured file automatically. Every value traces back to its
-              source. No more retyping.
-            </p>
-          </div>
-          <div class="list__item reveal">
-            <h3 class="list__title"><span class="list__num">02</span>Systems that finally connect</h3>
-            <p class="list__body">
-              Your CRM, mail, Drive and tools stay where they are. We build the layer that
-              links them, so data is entered once and stays correct everywhere. No more
-              copy-paste.
-            </p>
-          </div>
-          <div class="list__item reveal">
-            <h3 class="list__title"><span class="list__num">03</span>Agents for the work that repeats</h3>
-            <p class="list__body">
-              Reports, follow-up and internal updates that look the same every week run on
-              agents that write in your voice and get checked before they go out. No more
-              Monday-morning admin.
-            </p>
-          </div>
-          <div class="list__item reveal">
-            <h3 class="list__title"><span class="list__num">04</span>Proof before you commit</h3>
-            <p class="list__body">
-              Every system runs beside your manual process first. We measure the gap, tune
-              it through a feedback loop, and go live only at an agreed accuracy. No black
-              boxes.
-            </p>
-          </div>
+      <!-- 7. QUOTE -->
+      <section class="quote-section section-dark" aria-labelledby="quote-title">
+        <div class="quote-wrap reveal">
+          <p class="eyebrow">[ industry recognition ]</p>
+          <blockquote id="quote-title">
+            <span class="quote-mark quote-mark-open" aria-hidden="true">&ldquo;</span>
+            Companies only work because humans vaguely remember where the knowledge is. AI can&rsquo;t operate like that. We need a new primitive: <span class="quote-accent">a company brain.</span><span class="quote-mark quote-mark-close" aria-hidden="true">&rdquo;</span>
+          </blockquote>
+          <cite>
+            <strong>Tom Blomfield</strong>
+            <span>Partner, Y Combinator</span>
+          </cite>
         </div>
       </section>
 
-      <!-- Selected work -->
-      <section class="section container" id="work">
-        <div class="section-head reveal"><p class="marker">[selected work]</p></div>
-        <div class="list">
-          <div class="list__item reveal">
-            <h3 class="list__title">Calculation on autopilot</h3>
-            <p class="list__body">
-              <span class="list__result">97% accuracy, around &euro;70,000 saved per year.</span>
-              For a manufacturer of building products: quote requests are read from the
-              inbox, checked, and turned into a calculation file, with a human approving
-              the result.
-            </p>
-          </div>
-          <div class="list__item reveal">
-            <h3 class="list__title">Five systems, one flow</h3>
-            <p class="list__body">
-              <span class="list__result">Around 70% faster quotes.</span>
-              For an installer: CRM, tracking, payroll, mail and website connected into one
-              workspace, from the first enquiry to per-project margin.
-            </p>
-          </div>
-          <div class="list__item reveal">
-            <h3 class="list__title">Outbound that books</h3>
-            <p class="list__body">
-              <span class="list__result">&euro;300K+ in generated opportunities.</span>
-              For an entrepreneurs' community: the full outbound engine, lists cleaned and
-              enriched, segmented campaigns with follow-up.
-            </p>
-          </div>
+      <!-- 8. FAQ -->
+      <section class="faq section-dark" aria-labelledby="faq-title">
+        <p class="eyebrow">[ frequently asked ]</p>
+        <div class="faq-head reveal">
+          <h2 id="faq-title">FAQ.</h2>
+        </div>
+        <div class="faq-list reveal" data-accordion>
+          <details class="faq-item" open>
+            <summary>
+              <span>Where does AI actually add value in my business?</span>
+              <strong></strong>
+            </summary>
+            <p>Not only where you lose time. Also where problems stay unsolved because they are too complex for handwork, or where a system simply does it better and faster than a person. We start where the pain is biggest, and build from there.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              <span>What kind of business does this work for?</span>
+              <strong></strong>
+            </summary>
+            <p>There is no hard cut-off. What matters is that you know where the problems and bottlenecks in your business are today. AI builds on those pain points.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              <span>What if AI is not the answer?</span>
+              <strong></strong>
+            </summary>
+            <p>Then I will tell you. Plenty of problems turn out to be process problems, and you deserve to hear that before you spend on a build. Sometimes the advice is: fix the structure first, then automate. That is value too.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              <span>What exactly is a Company Brain?</span>
+              <strong></strong>
+            </summary>
+            <p>The central system AI agents work on. Today your business knowledge sits in heads, inboxes and separate tools. A Company Brain pulls that into one queryable layer, so agents have the context to do real work. We build it step by step, adding direct value along the way.</p>
+          </details>
+          <details class="faq-item">
+            <summary>
+              <span>How do we start?</span>
+              <strong></strong>
+            </summary>
+            <p>With the one problem that is costing you the most time or money today. We solve that first, capture the knowledge it needs, and let the next problem build on it.</p>
+          </details>
         </div>
       </section>
 
-      <!-- CTA -->
-      <section class="section cta">
-        <div class="container cta__inner reveal">
-          <h2 class="h-xl">See where your business <span class="accent">loses the most time.</span></h2>
-          <a class="btn" href="contact.html"><span class="btn__label">Let's talk</span></a>
+      <!-- 9. CONTACT -->
+      <section id="contact" class="contact section-dark" aria-labelledby="contact-title">
+        <div class="contact-copy reveal">
+          <p class="eyebrow">[ let's talk ]</p>
+          <h2 id="contact-title">Tell me what you're working on.</h2>
+          <p class="hero-lede">No pitch. Tell me where the time or money is going, and I'll tell you if AI can help.</p>
+          <div class="contact-meta">
+            <a href="mailto:maxim@peak-automations.com">maxim@peak-automations.com</a>
+            <a href="https://wa.me/32498573819?text=Hi%20Maxim%2C%20I%20have%20a%20question%20about%20AI%20for%20my%20business" target="_blank" rel="noopener">WhatsApp: +32 (0) 498 57 38 19</a>
+          </div>
         </div>
+        <form class="contact-form reveal" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="contact" />
+          <p hidden><label>Leave this empty: <input name="bot-field" /></label></p>
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" required />
+          </div>
+          <div class="field">
+            <label for="company">Company</label>
+            <input id="company" name="company" type="text" />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required />
+          </div>
+          <div class="field">
+            <label for="message">What are you working on?</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+          <button class="button button-primary" type="submit">Send message</button>
+          <p class="form-note">By submitting this form you agree to our <a href="privacy.html">privacy policy</a>.</p>
+        </form>
       </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-        <div class="footer__grid">
-          <div class="footer__col">
-            <a class="brand" href="index.html" aria-label="Peak Automations">
-              <img src="assets/img/logo-mark.svg" alt="Peak Automations" style="height:48px" />
-            </a>
-          </div>
-          <div class="footer__col">
-            <h4>Links</h4>
-            <a href="index.html">Home</a>
-            <a href="cases.html">Cases</a>
-            <a href="contact.html">Contact</a>
-          </div>
-          <div class="footer__col">
-            <h4>Social</h4>
-            <a href="https://www.linkedin.com/in/maximvandycke/" target="_blank" rel="noopener">LinkedIn</a>
-            <a href="https://www.instagram.com/maxim.vandycke/" target="_blank" rel="noopener">Instagram</a>
-            <a href="https://www.tiktok.com/@maxim.vandycke" target="_blank" rel="noopener">TikTok</a>
-          </div>
-          <div class="footer__col">
-            <h4>Contact</h4>
-            <a href="mailto:maxim@peak-automations.com">maxim@peak-automations.com</a>
-            <a href="tel:+32498573819">+32 (0) 498 57 38 19</a>
-          </div>
-        </div>
-        <div class="footer__bottom">
-          <span>&copy; Peak Automations, 2026</span>
-          <span>Company Brain builders</span>
-        </div>
-      </div>
+    <footer class="site-footer">
+      <img src="assets/img/logo-full-white.svg" alt="Peak Automations" />
+      <p>&copy; Peak Automations, 2026</p>
+      <a href="mailto:maxim@peak-automations.com">maxim@peak-automations.com</a>
     </footer>
 
+    <script src="https://player.vimeo.com/api/player.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
