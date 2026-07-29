@@ -485,6 +485,42 @@ if (stickyCta && "IntersectionObserver" in window) {
   document.querySelectorAll("[data-open-intake]").forEach((trigger) => {
     trigger.addEventListener("click", (event) => { event.preventDefault(); open(); });
   });
+
+  // Inline starter form (#contact): capture the basics, then open the modal prefilled.
+  const starter = document.getElementById("intake-starter");
+  if (starter) {
+    const starterStatus = starter.querySelector(".form-status");
+    const setStarterStatus = (msg, state) => {
+      if (!starterStatus) return;
+      starterStatus.textContent = msg;
+      starterStatus.hidden = false;
+      starterStatus.dataset.state = state;
+    };
+    starter.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const nameField = starter.elements["name"];
+      const emailField = starter.elements["email"];
+      const name = (nameField.value || "").trim();
+      if (!name) { setStarterStatus("Please add your name to continue.", "error"); nameField.focus(); return; }
+      if (!emailField.value.trim() || !emailField.checkValidity()) {
+        setStarterStatus("Please add a valid email to continue.", "error"); emailField.focus(); return;
+      }
+      if (starterStatus) starterStatus.hidden = true;
+
+      // Start fresh if a previous intake was completed, then seed the early answers.
+      if (store.completed) resetStore();
+      const merged = Object.assign({}, store.answers || {});
+      ["name", "email", "company", "time_loss"].forEach((f) => {
+        const field = starter.elements[f];
+        const v = field ? (field.value || "").trim() : "";
+        if (v) merged[f] = v;
+      });
+      store.answers = merged;
+      persist();
+      open(); // open() prefills from store.answers and lands on step 1 (consent)
+    });
+  }
+
   overlay.querySelector(".intake-close")?.addEventListener("click", close);
   overlay.addEventListener("click", (event) => { if (event.target === overlay) close(); });
   nextBtn.addEventListener("click", handleNext);

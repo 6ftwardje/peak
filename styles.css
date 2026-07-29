@@ -1623,6 +1623,39 @@ mux-player {
 .contact-copy .contact-meta a:hover {
   color: var(--accent);
 }
+.contact-reply {
+  margin: 2px 0 0;
+  color: rgba(244, 241, 234, 0.45);
+  font-size: 14px;
+}
+.contact-copy .contact-meta a.contact-wa {
+  margin-top: 6px;
+  color: rgba(244, 241, 234, 0.6);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* inline starter form: a framed panel that hands off to the intake */
+.contact-starter {
+  display: grid;
+  gap: 16px;
+  padding: clamp(24px, 3vw, 34px);
+  background: rgba(244, 241, 234, 0.02);
+  border: 1px solid var(--line-dark);
+  border-radius: 18px;
+}
+.contact-starter .field textarea {
+  min-height: 96px;
+}
+.contact-starter .button-primary {
+  justify-self: start;
+  margin-top: 4px;
+}
+.contact-starter-note {
+  margin: -6px 0 0;
+  color: rgba(244, 241, 234, 0.45);
+  font-size: 13px;
+}
 .contact-form {
   display: grid;
   gap: 16px;

@@ -313,15 +313,36 @@
         <div class="contact-copy reveal">
           <p class="eyebrow">[ contact ]</p>
           <h2 id="contact-title">Let's Talk</h2>
-          <p class="contact-sub">Fill in a short intake and I'll tell you if AI can help. Takes about two minutes.</p>
-          <div class="contact-actions">
-            <button class="button button-primary" type="button" data-open-intake>Start the intake</button>
-          </div>
+          <p class="contact-sub">A question about AI for your business, a project, or just curious where it fits. Start here and we'll pick it up from there.</p>
           <div class="contact-meta">
             <a href="mailto:maxim@peak-automations.com">maxim@peak-automations.com</a>
-            <a href="https://wa.me/32498573819?text=Hi%20Maxim%2C%20I%20have%20a%20question%20about%20AI%20for%20my%20business" target="_blank" rel="noopener">WhatsApp: +32 (0) 498 57 38 19</a>
+            <p class="contact-reply">I usually reply within a day.</p>
+            <a class="contact-wa" href="https://wa.me/32498573819?text=Hi%20Maxim%2C%20I%20have%20a%20question%20about%20AI%20for%20my%20business" target="_blank" rel="noopener">Or message me on WhatsApp</a>
           </div>
         </div>
+
+        <!-- Inline starter: prefills the first intake questions, then hands off to the modal -->
+        <form class="contact-starter reveal" id="intake-starter" novalidate>
+          <div class="field">
+            <label for="st-name">Name</label>
+            <input id="st-name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="st-email">Email</label>
+            <input id="st-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="st-company">Company</label>
+            <input id="st-company" name="company" type="text" autocomplete="organization" />
+          </div>
+          <div class="field">
+            <label for="st-fix">What are you hoping to fix or improve?</label>
+            <textarea id="st-fix" name="time_loss" rows="3"></textarea>
+          </div>
+          <button class="button button-primary" type="submit">Continue the intake <span aria-hidden="true">&rarr;</span></button>
+          <p class="contact-starter-note">Two more minutes, and you can book a call at the end.</p>
+          <p class="form-status" role="status" aria-live="polite" hidden></p>
+        </form>
       </section>
     </main>
 
