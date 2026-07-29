@@ -1737,3 +1737,9 @@ section[id] {
   line-height: 1.08;
   text-transform: uppercase;
 }
+
+/* Company Brain video sits in a solid black box */
+.approach .founder-reel {
+  background: #050505;
+  border: 1px solid #050505;
+}
