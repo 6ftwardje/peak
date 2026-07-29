@@ -30,7 +30,35 @@
         <a href="#content">Content</a>
         <a class="nav-cta" href="#contact" data-open-intake>Let's talk</a>
       </nav>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
     </header>
+
+    <!-- Mobile menu (hamburger) -->
+    <div class="mobile-menu" id="mobile-menu" hidden>
+      <div class="mobile-menu-head">
+        <a class="brand" href="#top" aria-label="Peak Automations" data-menu-link>
+          <img src="assets/img/logo-full-white.svg" alt="Peak Automations" />
+        </a>
+        <button class="mobile-menu-close" id="mobile-menu-close" type="button" aria-label="Close menu">&times;</button>
+      </div>
+      <div class="mobile-menu-body">
+        <button class="button button-primary mobile-menu-cta" type="button" data-open-intake>Let's talk</button>
+        <div class="mobile-menu-contact">
+          <p class="mobile-menu-contact-label">Reach me at</p>
+          <a href="mailto:maxim@peak-automations.com">maxim@peak-automations.com</a>
+          <a href="https://wa.me/32498573819?text=Hi%20Maxim%2C%20I%20have%20a%20question%20about%20AI%20for%20my%20business" target="_blank" rel="noopener">WhatsApp: +32 (0) 498 57 38 19</a>
+        </div>
+        <nav class="mobile-menu-nav" aria-label="Mobile navigation">
+          <a href="#top" data-menu-link>Home <span aria-hidden="true">&rsaquo;</span></a>
+          <a href="#work" data-menu-link>Work <span aria-hidden="true">&rsaquo;</span></a>
+          <a href="#approach" data-menu-link>Approach <span aria-hidden="true">&rsaquo;</span></a>
+          <a href="#content" data-menu-link>Content <span aria-hidden="true">&rsaquo;</span></a>
+          <a href="#contact" data-menu-link>Contact <span aria-hidden="true">&rsaquo;</span></a>
+        </nav>
+      </div>
+    </div>
 
     <main>
       <!-- 1. HERO -->

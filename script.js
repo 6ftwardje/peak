@@ -555,6 +555,36 @@ if (stickyCta && "IntersectionObserver" in window) {
   }
 })();
 
+/* Mobile hamburger menu */
+(() => {
+  const toggle = document.getElementById("nav-toggle");
+  const menu = document.getElementById("mobile-menu");
+  if (!toggle || !menu) return;
+  const closeBtn = document.getElementById("mobile-menu-close");
+
+  const openMenu = () => {
+    menu.hidden = false;
+    document.body.classList.add("menu-open");
+    toggle.setAttribute("aria-expanded", "true");
+  };
+  const closeMenu = () => {
+    menu.hidden = true;
+    document.body.classList.remove("menu-open");
+    toggle.setAttribute("aria-expanded", "false");
+  };
+
+  toggle.addEventListener("click", () => { menu.hidden ? openMenu() : closeMenu(); });
+  closeBtn?.addEventListener("click", closeMenu);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !menu.hidden) closeMenu();
+  });
+
+  // Close the menu when any link or the CTA is tapped (the CTA also opens the intake).
+  menu.querySelectorAll("[data-menu-link], [data-open-intake]").forEach((el) => {
+    el.addEventListener("click", closeMenu);
+  });
+})();
+
 /* active anchor-nav highlight */
 const navLinks = Array.from(document.querySelectorAll('.site-header nav a[href^="#"]'));
 const linkBySection = new Map();
