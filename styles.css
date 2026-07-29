@@ -1692,7 +1692,11 @@ mux-player {
 section[id] {
   scroll-margin-top: calc(var(--header-height) + 10px);
 }
-/* approach explainer: space between paragraphs */
+/* approach explainer: slightly smaller body + space between paragraphs */
+.founder-copy p {
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.5;
+}
 .founder-copy p + p {
   margin-top: 18px;
 }
