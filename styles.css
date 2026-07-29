@@ -1696,3 +1696,12 @@ section[id] {
 .founder-copy p + p {
   margin-top: 18px;
 }
+
+/* small subline under the contact heading */
+.contact-sub {
+  margin: 0;
+  max-width: 420px;
+  color: rgba(244, 241, 234, 0.6);
+  font-size: 15px;
+  line-height: 1.4;
+}
