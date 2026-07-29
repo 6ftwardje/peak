@@ -1706,14 +1706,26 @@ section[id] {
   line-height: 1.4;
 }
 
-/* ---- Approach opener: the "translation problem" manifesto ---- */
+/* ---- Approach opener: the "translation problem" manifesto in a black box ---- */
+.approach {
+  padding-left: clamp(20px, 5vw, 48px);
+  padding-right: clamp(20px, 5vw, 48px);
+}
 .approach-lead {
-  padding: clamp(72px, 10vw, 132px) clamp(20px, 5vw, 76px) 0;
+  margin: clamp(56px, 8vw, 104px) auto 0;
   max-width: 1180px;
+  padding: clamp(44px, 6vw, 88px) clamp(28px, 5vw, 76px);
+  background: #050505;
+  border-radius: 22px;
+  color: #f4f1ea;
+}
+.approach-lead .section-label {
+  color: #20e383;
 }
 .approach-manifesto {
   margin: 0 0 26px;
   max-width: 1000px;
+  color: #f4f1ea;
   font-size: clamp(28px, 4vw, 52px);
   font-weight: 800;
   line-height: 1.12;
@@ -1722,7 +1734,7 @@ section[id] {
 .approach-lead-note {
   margin: 0;
   max-width: 640px;
-  color: #4c4840;
+  color: rgba(244, 241, 234, 0.66);
   font-size: clamp(17px, 1.7vw, 21px);
   line-height: 1.42;
 }
