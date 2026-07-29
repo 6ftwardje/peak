@@ -1669,6 +1669,17 @@ mux-player {
 .contact-form .button-primary {
   justify-self: start;
 }
+.form-status {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.form-status[data-state="ok"] {
+  color: var(--accent);
+}
+.form-status[data-state="error"] {
+  color: #ff8f6b;
+}
 
 @media (max-width: 980px) {
   .contact {

@@ -172,6 +172,55 @@ if (stickyCta && "IntersectionObserver" in window) {
   }
 }
 
+/* contact form: submit to Web3Forms via fetch, keep the visitor on the page */
+const contactForm = document.getElementById("contact-form");
+
+if (contactForm) {
+  const status = contactForm.querySelector(".form-status");
+  const submitButton = contactForm.querySelector('button[type="submit"]');
+
+  const setStatus = (message, state) => {
+    if (!status) return;
+    status.textContent = message;
+    status.hidden = false;
+    status.dataset.state = state;
+  };
+
+  contactForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const originalLabel = submitButton?.textContent;
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending...";
+    }
+
+    try {
+      const payload = Object.fromEntries(new FormData(contactForm).entries());
+      const response = await fetch(contactForm.action, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        contactForm.reset();
+        setStatus("Thanks, your message is in. I'll get back to you soon.", "ok");
+      } else {
+        setStatus("Something went wrong. Please email maxim@peak-automations.com.", "error");
+      }
+    } catch (error) {
+      setStatus("Something went wrong. Please email maxim@peak-automations.com.", "error");
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalLabel || "Send message";
+      }
+    }
+  });
+}
+
 /* active anchor-nav highlight */
 const navLinks = Array.from(document.querySelectorAll('.site-header nav a[href^="#"]'));
 const linkBySection = new Map();

@@ -319,9 +319,11 @@
             <a href="https://wa.me/32498573819?text=Hi%20Maxim%2C%20I%20have%20a%20question%20about%20AI%20for%20my%20business" target="_blank" rel="noopener">WhatsApp: +32 (0) 498 57 38 19</a>
           </div>
         </div>
-        <form class="contact-form reveal" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-          <input type="hidden" name="form-name" value="contact" />
-          <p hidden><label>Leave this empty: <input name="bot-field" /></label></p>
+        <form class="contact-form reveal" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY" />
+          <input type="hidden" name="subject" value="New message via peak-automations.com" />
+          <input type="hidden" name="from_name" value="Peak Automations website" />
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display: none" aria-hidden="true" />
           <div class="field">
             <label for="name">Name</label>
             <input id="name" name="name" type="text" required />
@@ -339,6 +341,7 @@
             <textarea id="message" name="message" required></textarea>
           </div>
           <button class="button button-primary" type="submit">Send message</button>
+          <p class="form-status" role="status" aria-live="polite" hidden></p>
           <p class="form-note">By submitting this form you agree to our <a href="privacy.html">privacy policy</a>.</p>
         </form>
       </section>
