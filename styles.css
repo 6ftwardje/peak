@@ -1705,3 +1705,35 @@ section[id] {
   font-size: 15px;
   line-height: 1.4;
 }
+
+/* ---- Approach opener: the "translation problem" manifesto ---- */
+.approach-lead {
+  padding: clamp(72px, 10vw, 132px) clamp(20px, 5vw, 76px) 0;
+  max-width: 1180px;
+}
+.approach-manifesto {
+  margin: 0 0 26px;
+  max-width: 1000px;
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.005em;
+}
+.approach-lead-note {
+  margin: 0;
+  max-width: 640px;
+  color: #4c4840;
+  font-size: clamp(17px, 1.7vw, 21px);
+  line-height: 1.42;
+}
+/* the video + explainer grid sits under the manifesto, so trim its top padding + top border */
+.approach .founder {
+  padding-top: clamp(28px, 4vw, 56px);
+  border-top: 0;
+}
+.approach-subhead {
+  margin-bottom: 14px;
+  font-size: clamp(22px, 2.4vw, 32px);
+  line-height: 1.08;
+  text-transform: uppercase;
+}
