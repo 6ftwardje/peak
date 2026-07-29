@@ -28,7 +28,7 @@
         <a href="#work">Work</a>
         <a href="#approach">Approach</a>
         <a href="#content">Content</a>
-        <a class="nav-cta" href="#contact">Let's talk</a>
+        <a class="nav-cta" href="#contact" data-open-intake>Let's talk</a>
       </nav>
     </header>
 
@@ -49,7 +49,7 @@
             and takes the repetitive work off your team.
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#contact">Let's talk</a>
+            <a class="button button-primary" href="#contact" data-open-intake>Let's talk</a>
             <span>For owners of a running business who want AI that pays for itself.</span>
           </div>
           <a class="whatsapp-link" href="https://wa.me/32498573819?text=Hi%20Maxim%2C%20I%20have%20a%20question%20about%20AI%20for%20my%20business" target="_blank" rel="noopener">
@@ -313,37 +313,15 @@
         <div class="contact-copy reveal">
           <p class="eyebrow">[ contact ]</p>
           <h2 id="contact-title">Let's Talk</h2>
-          <p class="contact-sub">30 min free scan, and I'll tell you if AI can help.</p>
+          <p class="contact-sub">Fill in a short intake and I'll tell you if AI can help. Takes about two minutes.</p>
+          <div class="contact-actions">
+            <button class="button button-primary" type="button" data-open-intake>Start the intake</button>
+          </div>
           <div class="contact-meta">
             <a href="mailto:maxim@peak-automations.com">maxim@peak-automations.com</a>
             <a href="https://wa.me/32498573819?text=Hi%20Maxim%2C%20I%20have%20a%20question%20about%20AI%20for%20my%20business" target="_blank" rel="noopener">WhatsApp: +32 (0) 498 57 38 19</a>
           </div>
         </div>
-        <form class="contact-form reveal" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
-          <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY" />
-          <input type="hidden" name="subject" value="New message via peak-automations.com" />
-          <input type="hidden" name="from_name" value="Peak Automations website" />
-          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display: none" aria-hidden="true" />
-          <div class="field">
-            <label for="name">Name</label>
-            <input id="name" name="name" type="text" required />
-          </div>
-          <div class="field">
-            <label for="company">Company</label>
-            <input id="company" name="company" type="text" />
-          </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required />
-          </div>
-          <div class="field">
-            <label for="message">What are you working on?</label>
-            <textarea id="message" name="message" required></textarea>
-          </div>
-          <button class="button button-primary" type="submit">Send message</button>
-          <p class="form-status" role="status" aria-live="polite" hidden></p>
-          <p class="form-note">By submitting this form you agree to our <a href="privacy.html">privacy policy</a>.</p>
-        </form>
       </section>
     </main>
 
@@ -352,6 +330,188 @@
       <p>&copy; Peak Automations, 2026</p>
       <a href="mailto:maxim@peak-automations.com">maxim@peak-automations.com</a>
     </footer>
+
+    <!-- Bottom-right nudge that opens the intake -->
+    <aside class="intake-nudge" id="intake-nudge" hidden>
+      <button class="intake-nudge-close" type="button" aria-label="Dismiss">&times;</button>
+      <p class="intake-nudge-text">Not sure if AI fits your business?</p>
+      <button class="intake-nudge-cta" type="button" data-open-intake>Do the 2-min intake <span aria-hidden="true">&rarr;</span></button>
+    </aside>
+
+    <!-- Intake modal: one question per screen -->
+    <div class="intake-overlay" id="intake" hidden>
+      <div class="intake-dialog" role="dialog" aria-modal="true" aria-label="Intake">
+        <button class="intake-close" type="button" aria-label="Close">&times;</button>
+
+        <div class="intake-progress" id="intake-progress">
+          <div class="intake-progress-track"><span class="intake-progress-fill" id="intake-progress-fill"></span></div>
+          <p class="intake-progress-label" id="intake-progress-label" aria-live="polite">Step 1</p>
+        </div>
+
+        <form class="intake-form" id="intake-form" novalidate>
+          <!-- honeypot: real people leave this empty -->
+          <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" class="intake-hp" />
+
+          <div class="intake-steps">
+            <!-- 1: name + consent -->
+            <section class="intake-step" data-step hidden>
+              <p class="section-label">[ intake ]</p>
+              <h3 class="intake-q">What's your name?</h3>
+              <div class="field">
+                <label for="in-name">Name</label>
+                <input id="in-name" name="name" type="text" autocomplete="name" required />
+              </div>
+              <label class="intake-consent">
+                <input type="checkbox" name="consent" id="in-consent" value="true" required />
+                <span>I consent to Peak Automations storing my details and contacting me about this intake. See our <a href="privacy.html" target="_blank" rel="noopener">privacy policy</a>.</span>
+              </label>
+            </section>
+
+            <!-- 2: email + phone -->
+            <section class="intake-step" data-step hidden>
+              <h3 class="intake-q">Where can I reach you?</h3>
+              <div class="field">
+                <label for="in-email">Email</label>
+                <input id="in-email" name="email" type="email" autocomplete="email" required />
+              </div>
+              <div class="field">
+                <label for="in-phone">Phone <span class="opt">(optional)</span></label>
+                <input id="in-phone" name="phone" type="tel" autocomplete="tel" />
+              </div>
+            </section>
+
+            <!-- 3: company + website -->
+            <section class="intake-step" data-step hidden>
+              <h3 class="intake-q">Which company is this for?</h3>
+              <div class="field">
+                <label for="in-company">Company</label>
+                <input id="in-company" name="company" type="text" autocomplete="organization" required />
+              </div>
+              <div class="field">
+                <label for="in-website">Website <span class="opt">(optional)</span></label>
+                <input id="in-website" name="website" type="text" inputmode="url" placeholder="yourcompany.com" />
+              </div>
+            </section>
+
+            <!-- 4: role -->
+            <section class="intake-step" data-step hidden>
+              <h3 class="intake-q">What's your role?</h3>
+              <div class="intake-options" role="radiogroup" aria-label="Your role" data-required>
+                <label class="intake-option"><input type="radio" name="role" value="Owner / founder" /><span>Owner / founder</span></label>
+                <label class="intake-option"><input type="radio" name="role" value="Managing director / C-level" /><span>Managing director / C-level</span></label>
+                <label class="intake-option"><input type="radio" name="role" value="Manager / team lead" /><span>Manager / team lead</span></label>
+                <label class="intake-option"><input type="radio" name="role" value="Operations" /><span>Operations</span></label>
+                <label class="intake-option"><input type="radio" name="role" value="Other" /><span>Other</span></label>
+              </div>
+            </section>
+
+            <!-- 5: what the business does -->
+            <section class="intake-step" data-step hidden>
+              <h3 class="intake-q">In one line, what does your business do?</h3>
+              <div class="field">
+                <label for="in-business">Your business</label>
+                <input id="in-business" name="business" type="text" required />
+              </div>
+            </section>
+
+            <!-- 6: team size -->
+            <section class="intake-step" data-step hidden>
+              <h3 class="intake-q">How big is your team? <span class="opt">(optional)</span></h3>
+              <div class="intake-options" role="radiogroup" aria-label="Team size">
+                <label class="intake-option"><input type="radio" name="team_size" value="Just me" /><span>Just me</span></label>
+                <label class="intake-option"><input type="radio" name="team_size" value="2-10" /><span>2-10</span></label>
+                <label class="intake-option"><input type="radio" name="team_size" value="11-50" /><span>11-50</span></label>
+                <label class="intake-option"><input type="radio" name="team_size" value="51-200" /><span>51-200</span></label>
+                <label class="intake-option"><input type="radio" name="team_size" value="200+" /><span>200+</span></label>
+              </div>
+            </section>
+
+            <!-- 7: the core problem -->
+            <section class="intake-step" data-step hidden>
+              <h3 class="intake-q">Where does your team lose the most time or money right now?</h3>
+              <div class="field">
+                <label for="in-timeloss">The honest version helps most</label>
+                <textarea id="in-timeloss" name="time_loss" rows="4" required></textarea>
+              </div>
+            </section>
+
+            <!-- 8: tools -->
+            <section class="intake-step" data-step hidden>
+              <h3 class="intake-q">Which tools does your team use every day? <span class="opt">(optional)</span></h3>
+              <div class="field">
+                <label for="in-tools">Software and systems</label>
+                <input id="in-tools" name="tools" type="text" placeholder="CRM, mailbox, Drive, ERP, ..." />
+              </div>
+            </section>
+
+            <!-- 9: AI experience -->
+            <section class="intake-step" data-step hidden>
+              <h3 class="intake-q">What have you tried with AI so far? <span class="opt">(optional)</span></h3>
+              <div class="intake-options" role="radiogroup" aria-label="AI experience">
+                <label class="intake-option"><input type="radio" name="ai_experience" value="Nothing yet" /><span>Nothing yet</span></label>
+                <label class="intake-option"><input type="radio" name="ai_experience" value="A few tools like ChatGPT" /><span>A few tools like ChatGPT</span></label>
+                <label class="intake-option"><input type="radio" name="ai_experience" value="We automated a few things" /><span>We automated a few things</span></label>
+                <label class="intake-option"><input type="radio" name="ai_experience" value="We built something custom" /><span>We built something custom</span></label>
+              </div>
+            </section>
+
+            <!-- 10: timeline -->
+            <section class="intake-step" data-step hidden>
+              <h3 class="intake-q">When do you want this solved? <span class="opt">(optional)</span></h3>
+              <div class="intake-options" role="radiogroup" aria-label="Timeline">
+                <label class="intake-option"><input type="radio" name="timeline" value="Just exploring" /><span>Just exploring</span></label>
+                <label class="intake-option"><input type="radio" name="timeline" value="Within 3 months" /><span>Within 3 months</span></label>
+                <label class="intake-option"><input type="radio" name="timeline" value="As soon as possible" /><span>As soon as possible</span></label>
+              </div>
+            </section>
+
+            <!-- 11: budget posture -->
+            <section class="intake-step" data-step hidden>
+              <h3 class="intake-q">Have you set aside budget for this? <span class="opt">(optional)</span></h3>
+              <div class="intake-options" role="radiogroup" aria-label="Budget">
+                <label class="intake-option"><input type="radio" name="budget" value="Not yet, exploring" /><span>Not yet, exploring</span></label>
+                <label class="intake-option"><input type="radio" name="budget" value="We have a rough budget" /><span>We have a rough budget</span></label>
+                <label class="intake-option"><input type="radio" name="budget" value="Ready to invest" /><span>Ready to invest</span></label>
+              </div>
+            </section>
+
+            <!-- 12: source -->
+            <section class="intake-step" data-step hidden>
+              <h3 class="intake-q">How did you hear about me? <span class="opt">(optional)</span></h3>
+              <div class="intake-options" role="radiogroup" aria-label="Source">
+                <label class="intake-option"><input type="radio" name="source" value="Instagram" /><span>Instagram</span></label>
+                <label class="intake-option"><input type="radio" name="source" value="TikTok" /><span>TikTok</span></label>
+                <label class="intake-option"><input type="radio" name="source" value="LinkedIn" /><span>LinkedIn</span></label>
+                <label class="intake-option"><input type="radio" name="source" value="Referral" /><span>Referral</span></label>
+                <label class="intake-option"><input type="radio" name="source" value="Other" /><span>Other</span></label>
+              </div>
+            </section>
+          </div>
+
+          <p class="intake-error" id="intake-error" role="alert" aria-live="assertive" hidden></p>
+
+          <div class="intake-nav">
+            <button type="button" class="button intake-prev" id="intake-prev" hidden>Back</button>
+            <button type="button" class="button button-primary intake-next" id="intake-next">Next</button>
+          </div>
+          <p class="form-status" role="status" aria-live="polite" hidden></p>
+        </form>
+
+        <!-- End screen: shown after the final answer is saved -->
+        <div class="intake-end" id="intake-end" hidden>
+          <!-- Change the profile photo here -->
+          <img class="intake-end-photo" src="assets/maxim-profile.jpeg" alt="Maxim Vandycke" />
+          <!-- Change the contact person's name here -->
+          <h3 class="intake-end-title">Plan een call met Maxim &amp; get started.</h3>
+          <p class="intake-end-sub">A call isn't required. If you'd rather I reach out first, that works too.</p>
+          <div class="intake-end-actions">
+            <button type="button" class="button button-primary" id="intake-book">Ik plan nu een gesprek</button>
+            <button type="button" class="button intake-followup" id="intake-followup">Laat mij eerst contacteren</button>
+          </div>
+          <p class="intake-end-note" id="intake-end-note" hidden></p>
+        </div>
+      </div>
+    </div>
 
     <script src="https://player.vimeo.com/api/player.js"></script>
     <script src="script.js"></script>

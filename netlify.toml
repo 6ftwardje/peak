@@ -1,0 +1,14 @@
+# Netlify configuration for the static site + intake function.
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Friendly path: /api/intake → the function (the front-end calls /.netlify/functions/intake,
+# but this alias keeps the URL clean if you ever want to call /api/intake directly).
+[[redirects]]
+  from = "/api/intake"
+  to = "/.netlify/functions/intake"
+  status = 200

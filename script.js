@@ -172,54 +172,352 @@ if (stickyCta && "IntersectionObserver" in window) {
   }
 }
 
-/* contact form: submit to Web3Forms via fetch, keep the visitor on the page */
-const contactForm = document.getElementById("contact-form");
+/* =========================================================
+   Intake flow: modal, stepped questions, progressive save
+   ========================================================= */
+(() => {
+  const overlay = document.getElementById("intake");
+  const form = document.getElementById("intake-form");
+  if (!overlay || !form) return;
 
-if (contactForm) {
-  const status = contactForm.querySelector(".form-status");
-  const submitButton = contactForm.querySelector('button[type="submit"]');
+  // ---- Config ----
+  const SAVE_ENDPOINT = "/.netlify/functions/intake"; // secure proxy → Google Sheets
+  const CALENDLY_URL = "https://calendly.com/maxim-peak-automations/30min"; // change the Calendly link here
+  const STORAGE_KEY = "peak_intake_v1";
+  const CONTACT_EMAIL = "maxim@peak-automations.com";
+  // Answer fields collected from the form (honeypot + consent handled separately)
+  const ANSWER_FIELDS = [
+    "name", "email", "phone", "company", "website", "role", "business",
+    "team_size", "time_loss", "tools", "ai_experience", "timeline", "budget", "source",
+  ];
 
-  const setStatus = (message, state) => {
-    if (!status) return;
-    status.textContent = message;
-    status.hidden = false;
-    status.dataset.state = state;
-  };
+  // ---- Elements ----
+  const steps = Array.from(overlay.querySelectorAll(".intake-step"));
+  const total = steps.length;
+  const progressFill = document.getElementById("intake-progress-fill");
+  const progressLabel = document.getElementById("intake-progress-label");
+  const errorEl = document.getElementById("intake-error");
+  const statusEl = form.querySelector(".form-status");
+  const prevBtn = document.getElementById("intake-prev");
+  const nextBtn = document.getElementById("intake-next");
+  const endScreen = document.getElementById("intake-end");
+  const bookBtn = document.getElementById("intake-book");
+  const followupBtn = document.getElementById("intake-followup");
+  const endNote = document.getElementById("intake-end-note");
+  const honeypot = form.querySelector('input[name="company_website"]');
 
-  contactForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
+  // ---- State ----
+  let current = 0;
+  let lastFocused = null;
+  const store = loadStore();
 
-    const originalLabel = submitButton?.textContent;
-    if (submitButton) {
-      submitButton.disabled = true;
-      submitButton.textContent = "Sending...";
+  // ---- Persistence ----
+  function loadStore() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) { /* private mode / blocked → in-memory only */ }
+    return { intake_id: null, seq: 0, step: 0, status: "", answers: {}, completed: false };
+  }
+  function persist() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+    } catch (e) { /* ignore */ }
+  }
+  function resetStore() {
+    Object.assign(store, { intake_id: null, seq: 0, step: 0, status: "", answers: {}, completed: false });
+    persist();
+  }
+
+  // ---- IDs + sequence ----
+  function makeId() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    // RFC4122-ish fallback for old browsers / non-secure contexts
+    const b = new Uint8Array(16);
+    (window.crypto || {}).getRandomValues ? crypto.getRandomValues(b) : b.forEach((_, i) => (b[i] = Math.floor(Math.random() * 256)));
+    b[6] = (b[6] & 0x0f) | 0x40;
+    b[8] = (b[8] & 0x3f) | 0x80;
+    const h = [...b].map((x) => x.toString(16).padStart(2, "0"));
+    return `${h[0]}${h[1]}${h[2]}${h[3]}-${h[4]}${h[5]}-${h[6]}${h[7]}-${h[8]}${h[9]}-${h[10]}${h[11]}${h[12]}${h[13]}${h[14]}${h[15]}`;
+  }
+  function intakeId() {
+    if (!store.intake_id) { store.intake_id = makeId(); persist(); }
+    return store.intake_id;
+  }
+  function nextSeq() {
+    store.seq = Math.max((store.seq || 0) + 1, Date.now());
+    persist();
+    return store.seq;
+  }
+
+  // ---- Answer collection / prefill ----
+  function collectAnswers() {
+    const answers = {};
+    ANSWER_FIELDS.forEach((name) => {
+      const field = form.elements[name];
+      if (!field) return;
+      const value = (field.value || "").trim();
+      if (value) answers[name] = value;
+    });
+    return answers;
+  }
+  function prefill() {
+    const a = store.answers || {};
+    ANSWER_FIELDS.forEach((name) => {
+      const field = form.elements[name];
+      if (!field || a[name] == null) return;
+      if (field instanceof RadioNodeList || (field.length && field[0] && field[0].type === "radio")) {
+        Array.from(field).forEach((r) => { r.checked = r.value === a[name]; });
+      } else if (field.type !== "checkbox") {
+        field.value = a[name];
+      }
+    });
+  }
+  function referrerHost() {
+    try { return document.referrer ? new URL(document.referrer).hostname : ""; } catch (e) { return ""; }
+  }
+
+  // ---- Save (single-flight, coalescing) ----
+  let inFlight = false;
+  let pending = null;
+
+  function buildPayload(status) {
+    const consent = !!(form.elements["consent"] && form.elements["consent"].checked);
+    const answers = consent ? collectAnswers() : {}; // never send PII before consent
+    store.answers = answers;
+    store.status = status;
+    store.step = current + 1;
+    persist();
+    return {
+      intake_id: intakeId(),
+      seq: nextSeq(),
+      step: current + 1,
+      status,
+      consent,
+      answers,
+      source: answers.source || referrerHost() || "direct",
+      hp: honeypot ? honeypot.value : "",
+      meta: { page: location.pathname },
+    };
+  }
+
+  async function postSave(payload) {
+    try {
+      const res = await fetch(SAVE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      });
+      const data = await res.json().catch(() => ({}));
+      return { ok: res.ok && data.ok === true };
+    } catch (e) {
+      return { ok: false };
+    }
+  }
+
+  function queueDraftSave() {
+    const payload = buildPayload("draft");
+    if (inFlight) { pending = payload; return; }
+    runDraft(payload);
+  }
+  async function runDraft(payload) {
+    inFlight = true;
+    const { ok } = await postSave(payload);
+    if (!ok) setStatus("Couldn't save that step. It's fine, you can keep going.", "error");
+    else clearStatus();
+    inFlight = false;
+    if (pending) { const p = pending; pending = null; runDraft(p); }
+  }
+
+  // ---- Status + error helpers ----
+  function setStatus(message, state) {
+    if (!statusEl) return;
+    statusEl.textContent = message;
+    statusEl.hidden = false;
+    statusEl.dataset.state = state;
+  }
+  function clearStatus() { if (statusEl) statusEl.hidden = true; }
+  function showError(message) { if (errorEl) { errorEl.textContent = message; errorEl.hidden = false; } }
+  function clearError() { if (errorEl) errorEl.hidden = true; }
+
+  // ---- Validation ----
+  function validateStep(stepEl) {
+    clearError();
+    stepEl.querySelectorAll(".is-invalid").forEach((el) => el.classList.remove("is-invalid"));
+
+    // consent checkbox
+    const consent = stepEl.querySelector('input[name="consent"]');
+    if (consent && !consent.checked) { showError("Please tick the consent box so I can follow up."); return false; }
+
+    // required text / email inputs + textareas
+    const fields = stepEl.querySelectorAll("input[required], textarea[required]");
+    for (const field of fields) {
+      if (field.type === "checkbox") continue;
+      if (!field.value.trim()) { field.classList.add("is-invalid"); field.focus(); showError("This field is needed to continue."); return false; }
+      if (field.type === "email" && !field.checkValidity()) { field.classList.add("is-invalid"); field.focus(); showError("That email doesn't look right."); return false; }
     }
 
-    try {
-      const payload = Object.fromEntries(new FormData(contactForm).entries());
-      const response = await fetch(contactForm.action, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const result = await response.json();
+    // required single-choice group
+    const group = stepEl.querySelector(".intake-options[data-required]");
+    if (group) {
+      const name = group.querySelector("input[type=radio]")?.name;
+      if (name && !form.elements[name].value) { showError("Please pick one to continue."); return false; }
+    }
+    return true;
+  }
 
-      if (response.ok && result.success) {
-        contactForm.reset();
-        setStatus("Thanks, your message is in. I'll get back to you soon.", "ok");
-      } else {
-        setStatus("Something went wrong. Please email maxim@peak-automations.com.", "error");
-      }
-    } catch (error) {
-      setStatus("Something went wrong. Please email maxim@peak-automations.com.", "error");
-    } finally {
-      if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.textContent = originalLabel || "Send message";
-      }
+  // ---- Step rendering ----
+  function render() {
+    steps.forEach((s, i) => { s.hidden = i !== current; });
+    if (progressFill) progressFill.style.width = `${((current + 1) / total) * 100}%`;
+    if (progressLabel) progressLabel.textContent = `Step ${current + 1} of ${total}`;
+    prevBtn.hidden = current === 0;
+    nextBtn.textContent = current === total - 1 ? "Send intake" : "Next";
+    clearError();
+    const firstField = steps[current].querySelector("input, textarea, select");
+    window.requestAnimationFrame(() => firstField && firstField.focus());
+  }
+
+  function goTo(index) { current = Math.max(0, Math.min(total - 1, index)); render(); }
+
+  async function handleNext() {
+    if (honeypot && honeypot.value) return; // bot
+    if (!validateStep(steps[current])) return;
+
+    if (current < total - 1) {
+      queueDraftSave();        // background, non-blocking
+      goTo(current + 1);
+      return;
+    }
+
+    // Final step: block until the complete intake is confirmed saved
+    nextBtn.disabled = true;
+    nextBtn.textContent = "Sending...";
+    setStatus("", "ok");
+    clearStatus();
+
+    let result = await postSave(buildPayload("new"));
+    if (!result.ok) result = await postSave(buildPayload("new")); // one retry
+
+    nextBtn.disabled = false;
+    nextBtn.textContent = "Send intake";
+
+    if (result.ok) {
+      store.completed = true; persist();
+      showEnd(true);
+    } else {
+      // Don't hard-block booking; let them through with a flagged fallback
+      showEnd(false);
+    }
+  }
+
+  // ---- End screen + Calendly ----
+  function showEnd(confirmed) {
+    form.hidden = true;
+    document.getElementById("intake-progress").hidden = true;
+    endScreen.hidden = false;
+    if (!confirmed && endNote) {
+      endNote.innerHTML = `I couldn't fully confirm your submission. You can still book below, or email me at <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>.`;
+      endNote.hidden = false;
+    }
+    window.requestAnimationFrame(() => bookBtn && bookBtn.focus());
+  }
+
+  function calendlyUrl() {
+    const a = store.answers || {};
+    const url = new URL(CALENDLY_URL);
+    if (a.name) url.searchParams.set("name", a.name);
+    if (a.email) url.searchParams.set("email", a.email);
+    return url.toString();
+  }
+
+  bookBtn?.addEventListener("click", () => {
+    current = total - 1;
+    postSave(buildPayload("calendly_opened")); // fire-and-forget status update
+    window.open(calendlyUrl(), "_blank", "noopener");
+  });
+
+  followupBtn?.addEventListener("click", () => {
+    current = total - 1;
+    postSave(buildPayload("follow_up_requested"));
+    endScreen.querySelector(".intake-end-actions").hidden = true;
+    if (endNote) {
+      endNote.textContent = "Got it. I'll reach out to you personally. Talk soon.";
+      endNote.hidden = false;
     }
   });
-}
+
+  // ---- Open / close ----
+  function open() {
+    lastFocused = document.activeElement;
+    // Fresh start after a completed intake; otherwise resume the draft
+    if (store.completed) resetStore();
+    prefill();
+    form.hidden = false;
+    document.getElementById("intake-progress").hidden = false;
+    endScreen.hidden = true;
+    const resumeAt = store.status && store.status !== "" ? Math.min((store.step || 1) - 1, total - 1) : 0;
+    goTo(store.intake_id ? resumeAt : 0);
+    overlay.hidden = false;
+    document.body.classList.add("intake-open");
+    dismissNudge();
+  }
+  function close() {
+    overlay.hidden = true;
+    document.body.classList.remove("intake-open");
+    if (lastFocused instanceof HTMLElement) lastFocused.focus();
+  }
+
+  // Focus trap
+  overlay.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") { close(); return; }
+    if (event.key !== "Tab") return;
+    const focusables = overlay.querySelectorAll('button:not([hidden]), a[href], input:not([type=hidden]), textarea, select, [tabindex]:not([tabindex="-1"])');
+    const visible = Array.from(focusables).filter((el) => el.offsetParent !== null);
+    if (!visible.length) return;
+    const first = visible[0];
+    const last = visible[visible.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
+
+  document.querySelectorAll("[data-open-intake]").forEach((trigger) => {
+    trigger.addEventListener("click", (event) => { event.preventDefault(); open(); });
+  });
+  overlay.querySelector(".intake-close")?.addEventListener("click", close);
+  overlay.addEventListener("click", (event) => { if (event.target === overlay) close(); });
+  nextBtn.addEventListener("click", handleNext);
+  prevBtn.addEventListener("click", () => goTo(current - 1));
+  form.addEventListener("submit", (event) => { event.preventDefault(); handleNext(); });
+  form.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && event.target.tagName !== "TEXTAREA") { event.preventDefault(); handleNext(); }
+  });
+
+  // ---- Bottom-right nudge ----
+  const nudge = document.getElementById("intake-nudge");
+  function dismissNudge() {
+    if (!nudge) return;
+    nudge.hidden = true;
+    try { sessionStorage.setItem("intakeNudgeDismissed", "1"); } catch (e) { /* ignore */ }
+  }
+  if (nudge) {
+    let dismissed = false;
+    try { dismissed = sessionStorage.getItem("intakeNudgeDismissed") === "1"; } catch (e) { /* ignore */ }
+    nudge.querySelector(".intake-nudge-close")?.addEventListener("click", dismissNudge);
+    if (!dismissed) {
+      const showNudge = () => {
+        if (!overlay.hidden) return;
+        nudge.hidden = false;
+        nudge.classList.add("is-visible");
+        window.removeEventListener("scroll", onScroll);
+      };
+      const onScroll = () => { if (window.scrollY > window.innerHeight * 0.6) showNudge(); };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.setTimeout(showNudge, 12000);
+    }
+  }
+})();
 
 /* active anchor-nav highlight */
 const navLinks = Array.from(document.querySelectorAll('.site-header nav a[href^="#"]'));
