@@ -1849,6 +1849,9 @@ section[id] {
 }
 
 /* ---- Overlay + dialog ---- */
+.intake-overlay[hidden] {
+  display: none;
+}
 .intake-overlay {
   position: fixed;
   inset: 0;
