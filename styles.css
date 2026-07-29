@@ -1692,13 +1692,24 @@ mux-player {
 section[id] {
   scroll-margin-top: calc(var(--header-height) + 10px);
 }
-/* approach explainer: slightly smaller body + space between paragraphs */
+/* approach explainer: readable body + space between paragraphs */
 .founder-copy p {
-  font-size: clamp(15px, 1.4vw, 17px);
-  line-height: 1.5;
+  font-size: clamp(17px, 1.6vw, 20px);
+  line-height: 1.62;
 }
 .founder-copy p + p {
-  margin-top: 18px;
+  margin-top: 20px;
+}
+
+/* highlighted keywords: green box around the letters (highlighter style) */
+.brain-mark {
+  background: var(--accent);
+  color: #04140b;
+  font-weight: 600;
+  padding: 0.06em 0.28em;
+  border-radius: 5px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 /* small subline under the contact heading */
