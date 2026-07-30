@@ -2425,6 +2425,36 @@ body.menu-open {
   background: var(--accent);
 }
 
+/* whole card clickable -> the full case in Notion */
+.case-card {
+  position: relative;
+  transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+.case-card:hover {
+  border-color: rgba(32, 227, 131, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.4);
+}
+.case-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+.case-link span { transition: transform 180ms ease; }
+.case-card:hover .case-link span { transform: translateX(4px); }
+/* stretched link: click anywhere on the card follows the link */
+.case-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+}
+
 /* ---- Content section on dark: restyle the channel cards ---- */
 .channels.section-dark { border-bottom: 0; }
 .channels-note {
