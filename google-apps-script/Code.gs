@@ -16,7 +16,7 @@ var SHEET_NAME = 'Intakes';
 
 var COLUMNS = [
   'updated_at', 'created_at', 'intake_id', 'last_seq', 'status', 'follow_up_status',
-  'consent', 'source', 'step',
+  'consent', 'source', 'step', 'emailed',
   'name', 'email', 'phone', 'company', 'website', 'role', 'business',
   'team_size', 'time_loss', 'tools', 'ai_experience', 'timeline', 'budget',
 ];
@@ -69,8 +69,10 @@ function doPost(e) {
 
       // New intake → append a row (drafts stay visible as abandoned rows).
       if (!cell) {
-        sheet.appendRow(buildNewRow_(payload, id, seq, status, answers));
-        return jsonOut_({ ok: true, stored_seq: seq, status: status });
+        // If it lands straight as "new", that is the first (and only) email trigger.
+        var firstNewOnAppend = status === 'new';
+        sheet.appendRow(buildNewRow_(payload, id, seq, status, answers, firstNewOnAppend));
+        return jsonOut_({ ok: true, stored_seq: seq, status: status, first_new: firstNewOnAppend });
       }
 
       var rowIndex = cell.getRow();
@@ -97,8 +99,15 @@ function doPost(e) {
       if (payload.step) values[col_('step')] = Number(payload.step) || values[col_('step')];
       if (status === 'follow_up_requested') values[col_('follow_up_status')] = 'requested';
 
+      // Email trigger: only the first time this intake reaches "new".
+      var firstNew = false;
+      if (status === 'new' && !values[col_('emailed')]) {
+        values[col_('emailed')] = new Date();
+        firstNew = true;
+      }
+
       range.setValues([values]);
-      return jsonOut_({ ok: true, stored_seq: Math.max(seq, lastSeq), status: status });
+      return jsonOut_({ ok: true, stored_seq: Math.max(seq, lastSeq), status: status, first_new: firstNew });
     } finally {
       lock.releaseLock();
     }
@@ -107,7 +116,7 @@ function doPost(e) {
   }
 }
 
-function buildNewRow_(payload, id, seq, status, answers) {
+function buildNewRow_(payload, id, seq, status, answers, emailed) {
   var now = new Date();
   return COLUMNS.map(function (c) {
     switch (c) {
@@ -120,6 +129,7 @@ function buildNewRow_(payload, id, seq, status, answers) {
       case 'consent': return true;
       case 'source': return sanitize_(payload.source || '');
       case 'step': return Number(payload.step) || 1;
+      case 'emailed': return emailed ? now : '';
       default: return answers[c] != null ? sanitize_(answers[c]) : '';
     }
   });

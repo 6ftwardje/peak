@@ -68,6 +68,24 @@ Calendly can notify you when a call is actually booked. To flip a row to `appoin
 
 This is optional and not required for the intake to work.
 
+## Email notifications (Resend)
+
+When an intake completes, the function sends two emails via [Resend](https://resend.com): a
+notification to you and a confirmation to the visitor (with Instagram + TikTok links). Setup:
+
+1. Create a free Resend account.
+2. **Add a domain** → `peak-automations.com`. Resend shows a few DNS records (SPF/DKIM, DMARC).
+   Add them at your DNS host (Combell) and wait until Resend shows the domain **Verified**.
+   Until verified, Resend can only send to your own address, not to visitors.
+3. Create an **API key** (Resend → API Keys).
+4. Netlify → Site settings → Environment variables → add `RESEND_API_KEY` = that key → redeploy.
+5. Re-deploy the Apps Script (**Manage deployments → edit → New version**) so the new `emailed`
+   column + `first_new` flag are live, and re-run `setupSheet()` once.
+
+The sending address is `maxim@peak-automations.com` (set in `netlify/functions/intake.js`, constant
+`FROM`); replies to the visitor confirmation go to that mailbox. Emails fire exactly once per intake
+(the `emailed` column guards against the front-end's retry).
+
 ## Notes
 
 - **Get email alerts too (optional):** add `MailApp.sendEmail('maxim@peak-automations.com', 'New
