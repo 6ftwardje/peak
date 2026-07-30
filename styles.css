@@ -1769,8 +1769,7 @@ section[id] {
 
 /* ---- Approach opener: the "translation problem" manifesto in a black box ---- */
 .approach {
-  padding-left: clamp(20px, 5vw, 48px);
-  padding-right: clamp(20px, 5vw, 48px);
+  padding: clamp(56px, 8vw, 100px) clamp(20px, 5vw, 48px) clamp(76px, 10vw, 124px);
 }
 .approach-lead {
   margin: clamp(56px, 8vw, 104px) auto 0;
@@ -2452,22 +2451,31 @@ body.menu-open {
 .channels.section-dark .channel-arrow { color: rgba(244, 241, 234, 0.5); }
 .channels.section-dark .channel-card:hover .channel-arrow { color: var(--accent); }
 
-/* ---- Company Brain: one unified dark card (graph + copy + clip) ---- */
+/* ---- Company Brain: one dark card (text left, graph right) ---- */
 .brain-card {
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
+  grid-template-columns: 1fr 1fr;
   max-width: 1180px;
-  margin: clamp(28px, 4vw, 56px) auto 0;
-  background: radial-gradient(80% 120% at 28% 38%, #0b120e 0%, #060a08 58%, #030504 100%);
+  margin: 0 auto;
+  background: radial-gradient(80% 120% at 72% 42%, #0b120e 0%, #060a08 58%, #030504 100%);
   border: 1px solid rgba(32, 227, 131, 0.16);
   border-radius: 24px;
   overflow: hidden;
   color: var(--paper);
 }
+.brain-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(28px, 3.4vw, 48px);
+}
+.brain-card-body .section-label { color: var(--accent); margin-bottom: 14px; }
+.brain-card-body .approach-subhead { color: var(--paper); margin-bottom: clamp(20px, 2.4vw, 28px); }
+
 .brain-card-graph {
   position: relative;
-  min-height: 380px;
-  border-right: 1px solid rgba(32, 227, 131, 0.10);
+  min-height: 400px;
+  border-left: 1px solid rgba(32, 227, 131, 0.10);
 }
 #brain-graph { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 .brain-badge {
@@ -2497,45 +2505,69 @@ body.menu-open {
 }
 @keyframes brainPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 
-.brain-card-body {
+/* before -> after contrast (stacked, dim -> bright green) */
+.brain-contrast {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: clamp(28px, 3.4vw, 46px);
+  gap: 12px;
 }
-.brain-card-body .section-label { color: var(--accent); margin-bottom: 14px; }
-.brain-card-body .approach-subhead { color: var(--paper); margin-bottom: 16px; }
-.brain-card-body > p {
+.brain-col {
+  padding: 16px 18px;
+  border-radius: 12px;
+}
+.brain-col-label {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.brain-col p:not(.brain-col-label) {
   margin: 0;
-  color: rgba(244, 241, 234, 0.72);
-  font-size: clamp(15px, 1.4vw, 17px);
-  line-height: 1.55;
+  font-size: clamp(15px, 1.4vw, 16px);
+  line-height: 1.5;
 }
-.brain-card-body > p + p { margin-top: 14px; }
+.brain-col-before {
+  background: rgba(244, 241, 234, 0.03);
+  border: 1px solid var(--line-dark);
+}
+.brain-col-before .brain-col-label { color: rgba(244, 241, 234, 0.4); }
+.brain-col-before p:not(.brain-col-label) { color: rgba(244, 241, 234, 0.5); }
+.brain-col-after {
+  background: rgba(32, 227, 131, 0.07);
+  border: 1px solid rgba(32, 227, 131, 0.28);
+}
+.brain-col-after .brain-col-label { color: var(--accent); }
+.brain-col-after p:not(.brain-col-label) { color: var(--paper); }
+.brain-arrow {
+  align-self: center;
+  color: var(--accent);
+  font-size: 22px;
+  line-height: 1;
+  transform: rotate(90deg);
+}
 
-/* Mux explainer clip, compact, inside the same card */
+/* Company Brain explainer clip — its own centered portrait moment (on paper) */
 .brain-clip {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: clamp(22px, 3vw, 30px);
-  padding-top: clamp(20px, 3vw, 26px);
-  border-top: 1px solid rgba(244, 241, 234, 0.1);
+  max-width: 1180px;
+  margin: clamp(40px, 6vw, 72px) auto 0;
+  text-align: center;
 }
 .brain-clip-caption {
-  margin: 0;
-  color: rgba(244, 241, 234, 0.62);
-  font-size: 14px;
+  margin: 0 auto 18px;
+  max-width: 440px;
+  color: #4c4840;
+  font-size: 15px;
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 .mux-box {
-  flex: 0 0 auto;
-  width: 96px;
+  width: min(300px, 100%);
+  margin: 0 auto;
   aspect-ratio: 9 / 16;
   background: #050505;
-  border: 1px solid rgba(244, 241, 234, 0.12);
-  border-radius: 12px;
+  border: 1px solid #050505;
+  border-radius: 18px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -2546,24 +2578,28 @@ body.menu-open {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
-  color: rgba(244, 241, 234, 0.4);
+  gap: 6px;
+  color: rgba(244, 241, 234, 0.45);
   text-align: center;
-  padding: 8px;
+  padding: 20px;
 }
-.mux-placeholder span { color: rgba(244, 241, 234, 0.75); font-weight: 700; font-size: 11px; }
-.mux-placeholder em { font-style: normal; font-size: 9px; }
+.mux-placeholder span { color: rgba(244, 241, 234, 0.85); font-weight: 700; font-size: 15px; }
+.mux-placeholder em { font-style: normal; font-size: 13px; }
 
 @media (prefers-reduced-motion: reduce) {
   .brain-dot { animation: none; }
 }
+
+/* tighten the gap between the two dark sections (Cases -> Content) */
+.proof:has(+ .channels) { padding-bottom: clamp(24px, 3vw, 46px); }
+.proof + .channels { padding-top: clamp(24px, 3vw, 46px); }
 
 @media (max-width: 980px) {
   .cases-grid { grid-template-columns: 1fr; }
   .brain-card { grid-template-columns: 1fr; }
   .brain-card-graph {
     min-height: 300px;
-    border-right: 0;
-    border-bottom: 1px solid rgba(32, 227, 131, 0.10);
+    border-left: 0;
+    border-top: 1px solid rgba(32, 227, 131, 0.10);
   }
 }
