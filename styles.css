@@ -1887,6 +1887,10 @@ section[id] {
 .intake-overlay[hidden] {
   display: none;
 }
+/* anti-spam honeypot: must stay in the DOM but never be visible */
+.intake-hp {
+  display: none;
+}
 .intake-overlay {
   position: fixed;
   inset: 0;
