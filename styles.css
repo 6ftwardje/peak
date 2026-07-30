@@ -2454,7 +2454,7 @@ body.menu-open {
 /* ---- Company Brain: one dark card (video left, text + graph right) ---- */
 .brain-card {
   display: grid;
-  grid-template-columns: minmax(200px, 250px) 1fr;
+  grid-template-columns: minmax(320px, 420px) 1fr;
   max-width: 1180px;
   margin: 0 auto;
   background: radial-gradient(80% 120% at 70% 42%, #0b120e 0%, #060a08 58%, #030504 100%);
