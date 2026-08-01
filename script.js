@@ -302,17 +302,24 @@ if (stickyCta && "IntersectionObserver" in window) {
   }
 
   async function postSave(payload) {
+    // NOTE: no `keepalive: true` here. keepalive is for page-unload beacons; in some
+    // browsers (Safari/WebKit) the response body of a keepalive fetch is unreliable to
+    // read, which made the final save look failed even though it succeeded server-side.
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 15000);
     try {
       const res = await fetch(SAVE_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-        keepalive: true,
+        signal: controller.signal,
       });
       const data = await res.json().catch(() => ({}));
       return { ok: res.ok && data.ok === true };
     } catch (e) {
       return { ok: false };
+    } finally {
+      clearTimeout(timer);
     }
   }
 
