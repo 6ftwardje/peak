@@ -12,3 +12,16 @@
   from = "/api/intake"
   to = "/.netlify/functions/intake"
   status = 200
+
+# Nederlandse versie op een propere URL. De pagina zelf staat als index-nl.html in de
+# root, zodat styles.css, script.js en assets/ met dezelfde relatieve paden werken.
+# status 200 = rewrite: de URL blijft /nl staan in de adresbalk.
+[[redirects]]
+  from = "/nl"
+  to = "/index-nl.html"
+  status = 200
+
+[[redirects]]
+  from = "/nl/"
+  to = "/index-nl.html"
+  status = 200

@@ -191,6 +191,47 @@ if (stickyCta && "IntersectionObserver" in window) {
     "team_size", "time_loss", "tools", "ai_experience", "timeline", "budget", "source",
   ];
 
+  // ---- Copy, per language ----
+  // One script serves index.html (en) and index-nl.html (nl); the page declares which
+  // through <html lang>. Only the messages the script writes at runtime live here, the
+  // rest of the copy sits in the HTML. Note that the radio VALUES stay English in both
+  // pages on purpose, so the Google Sheets history keeps one vocabulary.
+  const COPY = {
+    en: {
+      saveFailed: "Couldn't save that step. It's fine, you can keep going.",
+      consent: "Please tick the consent box so I can follow up.",
+      required: "This field is needed to continue.",
+      badEmail: "That email doesn't look right.",
+      pickOne: "Please pick one to continue.",
+      step: (n, of) => `Step ${n} of ${of}`,
+      send: "Send intake",
+      sending: "Sending...",
+      next: "Next",
+      unconfirmed: (mail) =>
+        `I couldn't fully confirm your submission. You can still book below, or email me at <a href="mailto:${mail}">${mail}</a>.`,
+      followUp: "Got it. I'll reach out to you personally. Talk soon.",
+      starterName: "Please add your name to continue.",
+      starterEmail: "Please add a valid email to continue.",
+    },
+    nl: {
+      saveFailed: "Die stap kon ik niet bewaren. Geen probleem, je kan gewoon verder.",
+      consent: "Vink het toestemmingsvakje aan zodat ik kan opvolgen.",
+      required: "Dit veld is nodig om verder te gaan.",
+      badEmail: "Dat e-mailadres klopt niet helemaal.",
+      pickOne: "Kies er één om verder te gaan.",
+      step: (n, of) => `Stap ${n} van ${of}`,
+      send: "Intake versturen",
+      sending: "Versturen...",
+      next: "Volgende",
+      unconfirmed: (mail) =>
+        `Ik kon je verzending niet volledig bevestigen. Je kan hieronder nog altijd boeken, of me mailen op <a href="mailto:${mail}">${mail}</a>.`,
+      followUp: "Genoteerd. Ik neem zelf contact op. Tot binnenkort.",
+      starterName: "Vul je naam in om verder te gaan.",
+      starterEmail: "Vul een geldig e-mailadres in om verder te gaan.",
+    },
+  };
+  const t = COPY[(document.documentElement.lang || "en").slice(0, 2)] || COPY.en;
+
   // ---- Elements ----
   const steps = Array.from(overlay.querySelectorAll(".intake-step"));
   const total = steps.length;
@@ -331,7 +372,7 @@ if (stickyCta && "IntersectionObserver" in window) {
   async function runDraft(payload) {
     inFlight = true;
     const { ok } = await postSave(payload);
-    if (!ok) setStatus("Couldn't save that step. It's fine, you can keep going.", "error");
+    if (!ok) setStatus(t.saveFailed, "error");
     else clearStatus();
     inFlight = false;
     if (pending) { const p = pending; pending = null; runDraft(p); }
@@ -355,21 +396,21 @@ if (stickyCta && "IntersectionObserver" in window) {
 
     // consent checkbox
     const consent = stepEl.querySelector('input[name="consent"]');
-    if (consent && !consent.checked) { showError("Please tick the consent box so I can follow up."); return false; }
+    if (consent && !consent.checked) { showError(t.consent); return false; }
 
     // required text / email inputs + textareas
     const fields = stepEl.querySelectorAll("input[required], textarea[required]");
     for (const field of fields) {
       if (field.type === "checkbox") continue;
-      if (!field.value.trim()) { field.classList.add("is-invalid"); field.focus(); showError("This field is needed to continue."); return false; }
-      if (field.type === "email" && !field.checkValidity()) { field.classList.add("is-invalid"); field.focus(); showError("That email doesn't look right."); return false; }
+      if (!field.value.trim()) { field.classList.add("is-invalid"); field.focus(); showError(t.required); return false; }
+      if (field.type === "email" && !field.checkValidity()) { field.classList.add("is-invalid"); field.focus(); showError(t.badEmail); return false; }
     }
 
     // required single-choice group
     const group = stepEl.querySelector(".intake-options[data-required]");
     if (group) {
       const name = group.querySelector("input[type=radio]")?.name;
-      if (name && !form.elements[name].value) { showError("Please pick one to continue."); return false; }
+      if (name && !form.elements[name].value) { showError(t.pickOne); return false; }
     }
     return true;
   }
@@ -378,9 +419,9 @@ if (stickyCta && "IntersectionObserver" in window) {
   function render() {
     steps.forEach((s, i) => { s.hidden = i !== current; });
     if (progressFill) progressFill.style.width = `${((current + 1) / total) * 100}%`;
-    if (progressLabel) progressLabel.textContent = `Step ${current + 1} of ${total}`;
+    if (progressLabel) progressLabel.textContent = t.step(current + 1, total);
     prevBtn.hidden = current === 0;
-    nextBtn.textContent = current === total - 1 ? "Send intake" : "Next";
+    nextBtn.textContent = current === total - 1 ? t.send : t.next;
     clearError();
     const firstField = steps[current].querySelector("input, textarea, select");
     window.requestAnimationFrame(() => firstField && firstField.focus());
@@ -400,7 +441,7 @@ if (stickyCta && "IntersectionObserver" in window) {
 
     // Final step: block until the complete intake is confirmed saved
     nextBtn.disabled = true;
-    nextBtn.textContent = "Sending...";
+    nextBtn.textContent = t.sending;
     setStatus("", "ok");
     clearStatus();
 
@@ -408,7 +449,7 @@ if (stickyCta && "IntersectionObserver" in window) {
     if (!result.ok) result = await postSave(buildPayload("new")); // one retry
 
     nextBtn.disabled = false;
-    nextBtn.textContent = "Send intake";
+    nextBtn.textContent = t.send;
 
     if (result.ok) {
       store.completed = true; persist();
@@ -425,7 +466,7 @@ if (stickyCta && "IntersectionObserver" in window) {
     document.getElementById("intake-progress").hidden = true;
     endScreen.hidden = false;
     if (!confirmed && endNote) {
-      endNote.innerHTML = `I couldn't fully confirm your submission. You can still book below, or email me at <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>.`;
+      endNote.innerHTML = t.unconfirmed(CONTACT_EMAIL);
       endNote.hidden = false;
     }
     window.requestAnimationFrame(() => bookBtn && bookBtn.focus());
@@ -450,7 +491,7 @@ if (stickyCta && "IntersectionObserver" in window) {
     postSave(buildPayload("follow_up_requested"));
     endScreen.querySelector(".intake-end-actions").hidden = true;
     if (endNote) {
-      endNote.textContent = "Got it. I'll reach out to you personally. Talk soon.";
+      endNote.textContent = t.followUp;
       endNote.hidden = false;
     }
   });
@@ -508,9 +549,9 @@ if (stickyCta && "IntersectionObserver" in window) {
       const nameField = starter.elements["name"];
       const emailField = starter.elements["email"];
       const name = (nameField.value || "").trim();
-      if (!name) { setStarterStatus("Please add your name to continue.", "error"); nameField.focus(); return; }
+      if (!name) { setStarterStatus(t.starterName, "error"); nameField.focus(); return; }
       if (!emailField.value.trim() || !emailField.checkValidity()) {
-        setStarterStatus("Please add a valid email to continue.", "error"); emailField.focus(); return;
+        setStarterStatus(t.starterEmail, "error"); emailField.focus(); return;
       }
       if (starterStatus) starterStatus.hidden = true;
 

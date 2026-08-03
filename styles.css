@@ -102,6 +102,28 @@ img {
     color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 
+/* Taalwissel in de nav. Twee losse pagina's, geen vertaallaag in JS: index.html is
+   Engels, index-nl.html is Nederlands, en netlify.toml serveert die laatste op /nl. */
+.nav-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  opacity: 0.6;
+  letter-spacing: 0.06em;
+}
+.site-header nav a.nav-lang:hover {
+  opacity: 1;
+  color: var(--accent);
+}
+.nav-lang::before {
+  content: "";
+  width: 1px;
+  height: 12px;
+  margin-right: 6px;
+  background: currentColor;
+  opacity: 0.35;
+}
+
 .nav-cta:hover,
 .nav-cta:focus-visible {
   background: var(--accent);
