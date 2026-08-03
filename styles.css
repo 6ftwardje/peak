@@ -326,34 +326,6 @@ h3 {
   mask-image: linear-gradient(to bottom, transparent, black 22%, black 82%, transparent);
 }
 
-.live-signal {
-  position: absolute;
-  z-index: 2;
-  top: calc(var(--header-height) + 34px);
-  left: clamp(20px, 4vw, 54px);
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: rgba(244, 241, 234, 0.72);
-  font-size: 11px;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.live-signal span {
-  position: relative;
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: var(--accent);
-  box-shadow: 0 0 0 0 rgba(32, 227, 131, 0.5);
-  animation: pulseDot 1.8s ease-out infinite;
-}
-
-.live-signal p {
-  margin: 0;
-}
-
 .portrait-frame {
   position: relative;
   z-index: 1;
@@ -684,6 +656,13 @@ h3 {
   color: rgba(244, 241, 234, 0.76);
   font-size: clamp(17px, 1.6vw, 21px);
   line-height: 1.4;
+}
+
+/* The rule above is `class + element`, so it out-ranks `.eyebrow` and would turn the
+   [ Cases ] label gray + oversized. Restore it to the standard eyebrow (green, 12px). */
+.proof-heading .eyebrow {
+  color: var(--accent);
+  font-size: 12px;
 }
 
 .proof-grid {
@@ -2526,6 +2505,8 @@ body.menu-open {
   padding: clamp(28px, 3vw, 44px) clamp(28px, 3vw, 44px) clamp(20px, 2.4vw, 28px);
 }
 .brain-card-body .section-label { color: var(--accent); margin-bottom: 14px; }
+/* Duplicate label used only on mobile (see @media below); hidden on desktop. */
+.brain-label-mobile { display: none; color: var(--accent); }
 .brain-card-body .approach-subhead { color: var(--paper); margin-bottom: clamp(18px, 2.2vw, 26px); }
 
 .brain-card-graph {
@@ -2652,6 +2633,9 @@ body.menu-open {
     border-bottom: 1px solid rgba(32, 227, 131, 0.10);
   }
   .brain-card-video .mux-box { width: min(240px, 100%); margin: 0 auto; }
+  /* Show the label above the video on mobile; hide the desktop copy in the body. */
+  .brain-label-mobile { display: block; margin-bottom: 8px; }
+  .brain-card-body .section-label { display: none; }
   .brain-contrast { flex-direction: column; }
   .brain-arrow { transform: rotate(90deg); }
 }
