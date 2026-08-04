@@ -13,15 +13,16 @@
   to = "/.netlify/functions/intake"
   status = 200
 
-# Nederlandse versie op een propere URL. De pagina zelf staat als index-nl.html in de
-# root, zodat styles.css, script.js en assets/ met dezelfde relatieve paden werken.
-# status 200 = rewrite: de URL blijft /nl staan in de adresbalk.
+# /nl is enkel een korte deelbare URL en stuurt door naar de echte pagina. Bewust een
+# 301 en geen rewrite: zo bestaat de Nederlandse pagina op precies een adres, wat
+# overeenkomt met de hreflang-tags in beide heads. De links in de nav wijzen
+# rechtstreeks naar index-nl.html, zodat de taalwissel ook lokaal werkt.
 [[redirects]]
   from = "/nl"
   to = "/index-nl.html"
-  status = 200
+  status = 301
 
 [[redirects]]
   from = "/nl/"
   to = "/index-nl.html"
-  status = 200
+  status = 301
