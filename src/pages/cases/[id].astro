@@ -1,0 +1,32 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactCTA from '../../components/ContactCTA.astro';
+import CaseMedia from '../../components/CaseMedia.astro';
+import ClientIdentity from '../../components/ClientIdentity.astro';
+export async function getStaticPaths() {
+  return (await getCollection('cases')).map(project => ({ params: { id: project.id }, props: { project } }));
+}
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+<BaseLayout title={project.data.title} description={project.data.summary}>
+  <article class="container case-detail">
+    <a href="/cases" class="text-link back-link">← Alle projecten</a>
+    <div class="case-client"><ClientIdentity client={project.data.client} /></div>
+    <h1>{project.data.title}</h1>
+    <div class="case-meta"><span>{project.data.sector}</span><span>{project.data.category}</span>{project.data.status === 'in-ontwikkeling' && <span class="project-status">In ontwikkeling</span>}</div>
+    <p class="case-lead">{project.data.summary}</p>
+    <p class="case-status-note">Status: {project.data.status === 'in-ontwikkeling' ? 'In ontwikkeling. De beoogde werking wordt nog uitgewerkt.' : 'Project. Deze beschrijving documenteert de oplossing; er zijn geen gemeten rendementsresultaten gepubliceerd.'}</p>
+    <div class="case-cover"><CaseMedia image={project.data.image} sizes="(max-width: 940px) 100vw, 940px" /></div>
+    {project.data.humanRole && <section class="case-control"><h2>De menselijke controle</h2><p>{project.data.humanRole}</p></section>}
+    {project.data.result && <section class="case-control"><h2>Aantoonbaar resultaat</h2><p>{project.data.result}</p></section>}
+    <div class="prose"><Content /></div>
+  </article>
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .case-client { margin-bottom: 32px; }
+  .case-cover { margin-block: 40px 56px; }
+</style>

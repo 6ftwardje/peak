@@ -1,0 +1,33 @@
+---
+import { site, navigation } from '../content/site';
+import Arrow from './Arrow.astro';
+const path = Astro.url.pathname.replace(/\/index(?:\.html)?$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
+---
+<header class="site-header">
+  <div class="header-inner container">
+    <a class="brand" href="/" aria-label="Peak Automations — startpagina"><img src="/images/logo_volledig_wit.svg" width="200" height="48" alt="Peak Automations" fetchpriority="high" /></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation"><span>Menu</span><span class="menu-icon" aria-hidden="true"></span></button>
+    <nav id="main-navigation" class="navigation" aria-label="Hoofdnavigatie">
+      {navigation.map(link => <a href={link.href} aria-current={path === link.href ? 'page' : undefined}>{link.label}</a>)}
+      <a href={path === '/' ? '#contact' : '/contact'} class="nav-cta" aria-current={path === '/contact' ? 'page' : undefined}>{site.cta}<Arrow /></a>
+    </nav>
+  </div>
+</header>
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.querySelector<HTMLElement>('#main-navigation');
+  const close = () => { toggle?.setAttribute('aria-expanded', 'false'); nav?.classList.remove('is-open'); };
+  if (toggle && nav) {
+    toggle.hidden = false;
+    document.documentElement.classList.add('has-menu');
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') !== 'true';
+      toggle.setAttribute('aria-expanded', String(open));
+      nav.classList.toggle('is-open', open);
+    });
+    nav.addEventListener('click', event => { if ((event.target as HTMLElement).closest('a')) close(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') { close(); toggle.focus(); } });
+    document.addEventListener('click', event => { if (!(event.target as HTMLElement).closest('.site-header')) close(); });
+    matchMedia('(min-width: 901px)').addEventListener('change', close);
+  }
+</script>

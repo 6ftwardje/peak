@@ -1,0 +1,26 @@
+---
+import { workflowMedia } from '../content/site';
+---
+<section class="section workflow-section" id="praktijkvoorbeeld" aria-labelledby="workflow-title">
+  <div class="container">
+    <div class="section-heading"><h2 id="workflow-title">Van mailbox<br />naar controleerbaar voorstel.</h2><p>Zo kan offertevoorbereiding werken. De automatisering verwerkt de aanvraag en bereidt het calculatiebestand voor. Een medewerker beslist of het verder kan.</p></div>
+    <figure class="workflow-figure">
+      <figcaption>Procesillustratie met voorbeelddata, gebaseerd op het offerteproject. Geen live klantsysteem of gemeten resultaat.</figcaption>
+      <div class="workflow-documents">
+        <div class="example-document"><span class="document-label">Binnengekomen aanvraag · voorbeeld</span><h3>Offerte voor bouwproducten</h3><p>“Graag een offerte voor 24 panelen. De levering is in Mechelen.”</p><dl><div><dt>Product</dt><dd>Panelen</dd></div><div><dt>Aantal</dt><dd>24</dd></div><div><dt>Afmetingen</dt><dd class="missing-value">Niet vermeld</dd></div></dl></div>
+        <div class="example-document example-result"><span class="document-label">Voorbereid voor je medewerker</span><h3>Calculatie in voorbereiding</h3><p>Product, aantal en leverplaats staan klaar. De ontbrekende afmetingen zijn gemarkeerd.</p><div class="human-check"><strong>Menselijke controle</strong><p>De medewerker vraagt ontbrekende informatie op, controleert de calculatie en keurt het resultaat goed.</p></div></div>
+      </div>
+      <ol class="workflow-strip"><li>Aanvraag ontvangen</li><li>Gegevens verwerken</li><li>Ontbrekende info markeren</li><li>Calculatie voorbereiden</li><li><strong>Medewerker controleert</strong></li></ol>
+    </figure>
+    {workflowMedia.screenshot && <img class="workflow-media" src={workflowMedia.screenshot} alt={workflowMedia.screenshotAlt || 'Geanonimiseerd beeld van het offerteproces'} width="1440" height="900" loading="lazy" decoding="async" />}
+    {workflowMedia.video && <video class="workflow-media" controls preload="none" playsinline poster={workflowMedia.poster} aria-label="Schermopname van de offertevoorbereiding" data-demo><source src={workflowMedia.video} type="video/mp4" />Je browser ondersteunt deze video niet. Het proces staat hierboven volledig beschreven.</video>}
+    <a class="text-link workflow-case-link" href="/cases/offertevoorbereiding">Lees het bijbehorende project <span aria-hidden="true">↗</span></a>
+  </div>
+</section>
+<style>
+  /* Keep the document demonstration distinct from the light approach section. */
+  .workflow-section { border-top: 1px solid var(--border); }
+  .workflow-section .workflow-figure > figcaption { color: var(--muted); }
+  .workflow-documents { color: var(--ink); color-scheme: light; }
+  .workflow-strip li::marker { color: var(--muted); }
+</style>

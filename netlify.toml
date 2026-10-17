@@ -1,28 +1,31 @@
-# Netlify configuration for the static site + intake function.
 [build]
-  publish = "."
-  functions = "netlify/functions"
+  command = "npm run build"
+  publish = "dist"
 
-[functions]
-  node_bundler = "esbuild"
+[build.processing.html]
+  pretty_urls = true
 
-# Friendly path: /api/intake → the function (the front-end calls /.netlify/functions/intake,
-# but this alias keeps the URL clean if you ever want to call /api/intake directly).
+[build.environment]
+  NODE_VERSION = "24"
+
 [[redirects]]
-  from = "/api/intake"
-  to = "/.netlify/functions/intake"
-  status = 200
-
-# /nl is enkel een korte deelbare URL en stuurt door naar de echte pagina. Bewust een
-# 301 en geen rewrite: zo bestaat de Nederlandse pagina op precies een adres, wat
-# overeenkomt met de hreflang-tags in beide heads. De links in de nav wijzen
-# rechtstreeks naar index-nl.html, zodat de taalwissel ook lokaal werkt.
-[[redirects]]
-  from = "/nl"
-  to = "/index-nl.html"
+  from = "/index.html"
+  to = "/"
   status = 301
 
 [[redirects]]
-  from = "/nl/"
-  to = "/index-nl.html"
+  from = "/cases.html"
+  to = "/cases"
   status = 301
+
+[[redirects]]
+  from = "/contact.html"
+  to = "/contact"
+  status = 301
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+

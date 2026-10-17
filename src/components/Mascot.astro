@@ -1,0 +1,15 @@
+---
+interface Props {
+  pose: 'hero' | 'workflow' | 'contact';
+  class?: string;
+  desktopOnly?: boolean;
+}
+const { pose, class: className, desktopOnly = false } = Astro.props;
+const widths = { hero: [480, 960], workflow: [320, 640], contact: [240, 480] };
+const [small, large] = widths[pose];
+const sizes = { hero: '(min-width: 1440px) 420px, 32vw', workflow: '(max-width: 600px) 112px, (max-width: 1000px) 136px, 270px', contact: '180px' };
+---
+<picture class:list={['mascot', `mascot-${pose}`, className]} aria-hidden="true">
+  {desktopOnly && <source media="(max-width: 1000px)" srcset="/images/mascot/empty.svg" />}
+  <img src={`/images/mascot/${pose}-${small}.webp`} srcset={`/images/mascot/${pose}-${small}.webp ${small}w, /images/mascot/${pose}-${large}.webp ${large}w`} sizes={sizes[pose]} width="1744" height="2336" alt="" loading={pose === 'hero' ? 'eager' : 'lazy'} decoding="async" />
+</picture>

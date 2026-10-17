@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../content/site';
+---
+<BaseLayout title="Privacy" description="Hoe Peak Automations je contactaanvraag verwerkt: gegevens, doel, bewaring, dienstverleners en je privacyrechten.">
+  <article class="container legal-page">
+    <h1>Je gegevens<br /><span>bij Peak.</span></h1>
+    <div class="prose">
+      <p>Laatst bijgewerkt op 17 oktober 2026. Deze verklaring gaat over deze website en aanvragen via het contactformulier.</p>
+
+      <h2>Wie is verantwoordelijk?</h2>
+      <p>{site.company}, {site.address}, is verantwoordelijk voor deze verwerking. Je kunt ons bereiken via <a href={`mailto:${site.email}`}>{site.email}</a> of <a href={`tel:${site.phone}`}>{site.phoneLabel}</a>.</p>
+      <p>Ondernemingsnummer: {site.businessNumber}. Btw-nummer: {site.vat}.</p>
+
+      <h2>Welke gegevens gebruiken we?</h2>
+      <p>Het formulier vraagt je naam, e-mailadres en vraag. Bedrijf, telefoonnummer en interesse zijn optioneel. Een campagnelink kan bron, medium en campagnenaam meesturen. Netlify verwerkt daarnaast technische gegevens, zoals je IP-adres en het tijdstip van de inzending, voor de werking en spambeveiliging.</p>
+      <p>Je kiest zelf of je contact opneemt. Zonder de verplichte gegevens kunnen we je vraag niet via het formulier behandelen. Deel geen gevoelige persoonsgegevens, wachtwoorden of vertrouwelijke klantdossiers.</p>
+
+      <h2>Waarom verwerken we je gegevens?</h2>
+      <p>Om je vraag te beantwoorden en een eventuele samenwerking voor te bereiden. Bij een offerte- of dienstaanvraag is de grondslag het nemen van stappen op jouw verzoek vóór een overeenkomst. Bij overige vragen en beveiliging is dat ons gerechtvaardigd belang om bereikbaar te zijn en misbruik te voorkomen. Het formulier schrijft je niet in op een nieuwsbrief.</p>
+
+      <h2>Wie ontvangt je aanvraag?</h2>
+      <p>Je aanvraag wordt opgeslagen in Netlify Forms en als melding naar ons contactadres gestuurd. Voor hosting, formulierverwerking en spambeveiliging gebruiken we Netlify; de e-mailafhandeling verloopt via onze Microsoft 365-mailomgeving.</p>
+      <p>Netlify en zijn dienstverleners kunnen gegevens buiten de Europese Economische Ruimte verwerken, waaronder in de Verenigde Staten. Netlify beschrijft de waarborgen voor zulke doorgiften, waaronder standaardcontractbepalingen, in zijn <a href="https://www.netlify.com/pdf/netlify-dpa.pdf">verwerkersovereenkomst</a>. De betrokken dienstverleners staan in de <a href="https://www.netlify.com/legal/subprocessors/">lijst van subverwerkers</a>.</p>
+
+      <h2>Hoelang bewaren we je gegevens?</h2>
+      <p>De bewaartermijn hangt af van de afhandeling van je vraag, lopende offertebesprekingen en een eventuele samenwerking. We bewaren de aanvraag niet langer dan daarvoor nodig. Langere bewaring kan nodig zijn voor wettelijke verplichtingen of de onderbouwing van juridische aanspraken. Je kunt via ons contactadres vragen welke termijn op jouw aanvraag van toepassing is.</p>
+
+      <h2>Cookies en automatische beslissingen</h2>
+      <p>Deze website plaatst zelf geen analytics- of marketingcookies. Campagnevelden worden alleen uit de contactlink gelezen en niet als bezoekersprofiel opgeslagen. Spamcontrole kan een inzending filteren; het formulier neemt geen geautomatiseerde beslissingen over een mogelijke samenwerking.</p>
+
+      <h2>Je rechten en vragen</h2>
+      <p>Je kunt, onder de voorwaarden van de AVG, inzage, correctie, verwijdering, beperking of overdracht van je gegevens vragen en bezwaar maken tegen verwerking op basis van gerechtvaardigd belang. Mail daarvoor naar <a href={`mailto:${site.email}`}>{site.email}</a>. We beantwoorden je verzoek in beginsel binnen één maand.</p>
+      <p>Je kunt ook een klacht indienen bij de Belgische <a href="https://www.gegevensbeschermingsautoriteit.be/burger/acties/klacht-indienen">Gegevensbeschermingsautoriteit</a>.</p>
+    </div>
+  </article>
+</BaseLayout>
