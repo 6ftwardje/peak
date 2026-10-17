@@ -1,0 +1,11 @@
+.DS_Store
+.netlify/
+dist/
+node_modules/
+.astro/
+.playwright-cli/
+output/
+.env
+.env.*
+!.env.example
+

@@ -1,0 +1,41 @@
+{
+  "reference": {
+    "file": "reference.png",
+    "higgsfieldMediaId": "87233517-2103-49ed-beb4-ce303f33e6f5",
+    "originalName": "Robotmascotte referentieblad voor Peak Automations.png"
+  },
+  "model": "gpt_image_2_5",
+  "createdAt": "2026-10-17",
+  "parameters": {
+    "quality": "high",
+    "resolution": "2k",
+    "background": "transparent",
+    "aspect_ratio": "3:4"
+  },
+  "assets": [
+    {
+      "key": "hero",
+      "section": "Homepage hero",
+      "prompt": "Use the attached Peak Automations character reference sheet as the strict identity source. Produce ONE isolated full-body robot, not a character sheet. Preserve exactly the reference robot's proportions: large softly peaked off-white head, glossy black rounded rectangular faceplate, two vertical pill-shaped emerald green eyes, circular black ear joints, small charcoal torso with the same green chevron chest detail, off-white shoulder/forearm/leg armor, black joints and short mechanical hands and broad feet. Same recognizable geometry, materials and proportions, same restrained premium 3D product-render aesthetic. Accent #20E387, off-white #F4F5F2, charcoal #141615. Friendly and competent, subtle gestures, no redesign. Soft studio key light upper left, gentle fill, realistic matte ceramic shell and subtle black reflections. Entire silhouette and all hands/feet/props in frame, 10% clear margin. Genuine transparent RGBA background, no scenery, floor, color backdrop or checkerboard. No text, labels, branding, logos, dashboards, UI, duplicate robots, or extra limbs. Very subtle contact shadow only; edges clean for dark and light website backgrounds.\nPOSE: Standing confidently in three-quarter view facing the viewer's LEFT, looking toward content on the left. The arm on the viewer's left extends gently toward that content with a small open-palm presenting gesture at waist level; other arm rests naturally. Both feet planted. No props. Centered full body, portrait 3:4 composition. This is the main welcoming brand illustration.",
+      "jobId": "b855b933-3385-456b-bdd3-01d77f1b5ddb",
+      "original": "originals/hero.png",
+      "web": ["/images/mascot/hero-480.webp", "/images/mascot/hero-960.webp"]
+    },
+    {
+      "key": "workflow",
+      "section": "Homepage diensten",
+      "prompt": "Use the attached Peak Automations character reference sheet as the strict identity source. Produce ONE isolated full-body robot, not a character sheet. Preserve exactly the reference robot's proportions: large softly peaked off-white head, glossy black rounded rectangular faceplate, two vertical pill-shaped emerald green eyes, circular black ear joints, small charcoal torso with the same green chevron chest detail, off-white shoulder/forearm/leg armor, black joints and short mechanical hands and broad feet. Same recognizable geometry, materials and proportions, same restrained premium 3D product-render aesthetic. Accent #20E387, off-white #F4F5F2, charcoal #141615. Friendly and competent, subtle gestures, no redesign. Soft studio key light upper left, gentle fill, realistic matte ceramic shell and subtle black reflections. Entire silhouette and all hands/feet/props in frame, 10% clear margin. Genuine transparent RGBA background, no scenery, floor, color backdrop or checkerboard. No text, labels, branding, logos, dashboards, UI, duplicate robots, or extra limbs. Very subtle contact shadow only; edges clean for dark and light website backgrounds.\nPOSE: Three-quarter full-body view facing slightly to the viewer's RIGHT. The robot thoughtfully connects three simple small off-white rounded rectangular solid modules, arranged in a short low horizontal chain at waist height on its right, with thin green connectors. One hand carefully places the final module, the other relaxed open hand supports the action. Props are abstract physical blocks only, no screen/interface/details/text. All three modules, hands and feet fully visible, compact arrangement. Keep the character dominant and the props small. Portrait 3:4 composition.",
+      "jobId": "3caafe67-2a9f-4b74-b141-ec9f35aad762",
+      "original": "originals/workflow.png",
+      "web": ["/images/mascot/workflow-320.webp", "/images/mascot/workflow-640.webp"]
+    },
+    {
+      "key": "contact",
+      "section": "Homepage contact",
+      "prompt": "Use the attached Peak Automations character reference sheet as the strict identity source. Produce ONE isolated full-body robot, not a character sheet. Preserve exactly the reference robot's proportions: large softly peaked off-white head, glossy black rounded rectangular faceplate, two vertical pill-shaped emerald green eyes, circular black ear joints, small charcoal torso with the same green chevron chest detail, off-white shoulder/forearm/leg armor, black joints and short mechanical hands and broad feet. Same recognizable geometry, materials and proportions, same restrained premium 3D product-render aesthetic. Accent #20E387, off-white #F4F5F2, charcoal #141615. Friendly and competent, subtle gestures, no redesign. Soft studio key light upper left, gentle fill, realistic matte ceramic shell and subtle black reflections. Entire silhouette and all hands/feet/props in frame, 10% clear margin. Genuine transparent RGBA background, no scenery, floor, color backdrop or checkerboard. No text, labels, branding, logos, dashboards, UI, duplicate robots, or extra limbs. Very subtle contact shadow only; edges clean for dark and light website backgrounds.\nPOSE: Standing in a gentle three-quarter pose facing the viewer's RIGHT, head slightly turned to the viewer with an attentive expression. Arm on viewer's right extends toward a form outside the image with an understated open palm at waist level; other arm relaxed. Warm, calm invitation to begin a professional conversation. Both feet planted, no props. Full-body portrait 3:4 composition.",
+      "jobId": "caa2c825-ad47-4e48-9912-68ae45068603",
+      "original": "originals/contact.png",
+      "web": ["/images/mascot/contact-240.webp", "/images/mascot/contact-480.webp"]
+    }
+  ]
+}

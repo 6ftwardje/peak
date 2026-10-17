@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Arrow from '../components/Arrow.astro';
+import ConditionGrid from '@/components/ui/conditiongrid';
+import '../styles/tailwind.css';
+import ContactForm from '../components/ContactForm.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Mascot from '../components/Mascot.astro';
+import { home, site, situations, faqs, people, contentPreviewKeys } from '../content/site';
+const projects = (await getCollection('cases', entry => entry.data.featured)).sort((a, b) => a.data.order - b.data.order);
+const bentoProjects = projects.map(project => ({
+  id: project.id,
+  img: project.data.image.src,
+  imgSmall: project.data.image.srcSmall,
+  imageAlt: project.data.image.alt,
+  imagePlaceholder: project.data.image.placeholder,
+  title: project.data.proofLabel || project.data.title,
+  des: project.data.summary,
+  sector: project.data.sector,
+  developing: project.data.status === 'in-ontwikkeling',
+  client: project.data.client,
+}));
+const placeholderPhotos = projects.some(project => project.data.image.placeholder);
+const placeholderLogos = projects.some(project => project.data.client.placeholder);
+const preview = import.meta.env.DEV;
+---
+<BaseLayout>
+  <section class="hero home-hero" id="start">
+    <picture><source srcset="/images/peak-hero-960.webp 960w, /images/peak-hero-1920.webp 1920w" sizes="100vw" type="image/webp" /><img class="hero-image" src="/images/peak_bg_main_v2_2.jpg" width="2560" height="1706" alt="" fetchpriority="high" /></picture>
+    <div class="container hero-composition">
+    <div class="hero-content">
+      <h1>{home.title}<br /><span>{home.accent}</span></h1>
+      <p>{home.intro}</p>
+      <div class="hero-actions"><Button href="#contact">{site.cta}</Button><a class="text-link" href="#projecten">Bekijk onze projecten<Arrow direction="right" /></a></div>
+      <p class="hero-expectation">{home.firstConversation}</p>
+    </div>
+    <Mascot pose="hero" desktopOnly />
+    </div>
+  </section>
+
+  <section class="section container" id="projecten">
+    <div class="section-heading"><h2>Gebouwd rond<br /><span class="muted">werk uit de praktijk.</span></h2><a class="text-link" href="/cases">Alle projecten<Arrow direction="right" /></a></div>
+    <ConditionGrid projects={bentoProjects} client:visible />
+    <p class="evidence-note">Een selectie van ons werk.{placeholderPhotos && ' De foto’s zijn tijdelijke sfeerbeelden.'}{placeholderLogos && ' Klantlogo’s volgen na goedkeuring.'}</p>
+  </section>
+
+  <Testimonials preview={preview} />
+
+  <section class="section container" id="diensten">
+    <div class="section-heading"><h2>Je team kent het werk.<br /><span class="muted">Ook het werk dat blijft liggen.</span></h2></div>
+    <div class="services-composition">
+      <div class="services-context"><p>Veel tijd gaat naar zoeken, overnemen en opvolgen. Daar beginnen we: bij een terugkerende taak die je team herkent.</p><Mascot pose="workflow" /></div>
+      <div class="situation-list">{situations.map(item => <div class="situation-row"><h3>{item.problem}</h3><p>{item.improvement}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="section container people-section" id="maxim" aria-labelledby="people-title">
+    <img src={people.portrait} width="800" height="800" loading="lazy" decoding="async" alt="Maxim Vandycke, aanspreekpunt bij Peak Automations" />
+    <div><h2 id="people-title">Een proces begint<br />met een gesprek.</h2><p class="person-name">{site.contactName}<span>{people.role}</span></p><p>{people.description}</p><p>{people.involvement}</p><a class="text-link" href="#contact">{site.cta}<Arrow direction="right" /></a></div>
+  </section>
+
+  <section class="section container faq-section">
+    <div><h2>Goed om te weten.</h2><p class="faq-intro">Een werkende oplossing vraagt ook afspraken over controle, gegevens en opvolging.</p></div><div class="faq-list">{faqs.map(faq => <details><summary>{faq.question}<span class="faq-icon" aria-hidden="true"></span></summary><p>{faq.answer}</p></details>)}</div>
+  </section>
+
+  <section class="section contact-section" id="contact" aria-labelledby="contact-title">
+    <div class="container contact-grid">
+      <div class="contact-info"><h2 id="contact-title">Welk werk kost je team<br /><span class="muted">steeds opnieuw tijd?</span></h2><p>Vertel kort wat er vandaag gebeurt en waar het vastloopt. Je hoeft nog geen oplossing of dienst te kiezen.</p><p class="contact-expectation">{home.firstConversation}</p><div class="contact-details"><div><div class="contact-person"><img src={people.portrait} width="64" height="64" loading="lazy" alt="" /><div><h3>{site.contactName}</h3><span>{people.role}</span></div></div><a class="contact-direct" href={`mailto:${site.email}`}>{site.email}</a><a class="contact-direct" href={`tel:${site.phone}`}>{site.phoneLabel}</a></div><Mascot pose="contact" desktopOnly /></div></div>
+      <ContactForm location="homepage" />
+    </div>
+  </section>
+
+  {preview && <aside class="container preview-content" aria-label="Ontbrekende content in ontwikkelpreview"><h2>Contentpreview — niet gepubliceerd</h2><p>Vervangbare onderdelen en bedrijfsafspraken staan in CONTENT_NEEDED.md.</p>{contentPreviewKeys.map(item => <div class="preview-slot"><strong>{item.key}</strong><p>{item.text}</p></div>)}</aside>}
+</BaseLayout>

@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { services } from '../content/site';
+---
+<BaseLayout title="AI-consultancy, AI-agents & systeemkoppelingen" description="Van procesanalyse tot werkende AI-agents: ontdek hoe Peak Automations AI-consultancy, agentic automatisering en software inzet voor je onderneming.">
+  <section class="page-intro container"><h1>Van AI-vraag<br />naar <span>werkend proces.</span></h1><p>Waar kan AI je team helpen? Welke stappen kun je automatiseren? En hoe krijg je dat werkend in je bestaande systemen? We begeleiden je van die vragen tot de uitvoering.</p></section>
+  <div class="container service-details">{services.map(service => <section class="service-detail" id={service.id}>
+    <div><h2>{service.title}</h2><p class="service-summary">{service.summary}</p><Button href={`/contact?interesse=${service.id}`} secondary>Bespreek deze toepassing</Button></div>
+    <div><p>{service.description}</p><h3>Waar we samen naartoe werken</h3><ul class="deliverables">{service.deliverables.map(item => <li>{item}</li>)}</ul><p class="example">{service.example}</p></div>
+  </section>)}</div>
+  <section class="section light-section"><div class="container workflow-example"><div><h2>Een agent voert uit.<br />Je team houdt grip.</h2><p>Bijvoorbeeld bij het voorbereiden van offertes: terugkerende stappen verlopen automatisch, uitzonderingen komen bij een medewerker terecht.</p></div><ol class="workflow"><li><span>Aanvraag ontvangen</span><p>Een e-mail met documenten komt binnen.</p></li><li><span>Informatie verwerken</span><p>De agent haalt gegevens op en markeert wat ontbreekt.</p></li><li><span>Medewerker controleert</span><p>Je team beoordeelt uitzonderingen en keurt het voorstel goed.</p></li><li><span>Door naar je systeem</span><p>Goedgekeurde gegevens worden verder verwerkt.</p></li></ol></div></section>
+  <ContactCTA />
+</BaseLayout>

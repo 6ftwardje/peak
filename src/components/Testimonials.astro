@@ -1,0 +1,43 @@
+---
+import { testimonials } from '../content/site';
+interface Props { preview?: boolean; }
+const { preview = false } = Astro.props;
+const placeholder = preview && testimonials.length === 0;
+---
+{(testimonials.length > 0 || placeholder) && <section class="testimonial-section" aria-labelledby="reviews-title">
+  <div class="container testimonial-inner">
+    <h2 id="reviews-title">Samenwerken,<br /><span class="muted">in hun woorden.</span></h2>
+    <div class="testimonial-quotes">{testimonials.map(review => <figure>
+      <blockquote><p>“{review.quote}”</p></blockquote>
+      <figcaption>
+        {review.photo && <img src={review.photo} width="72" height="72" loading="lazy" alt="" />}
+        <div><strong>{review.name}</strong><span>{review.role} · {review.company}</span><p>{review.context}</p>{review.source && <a class="text-link" href={review.source}>Bekijk de bron of case</a>}</div>
+      </figcaption>
+    </figure>)}
+    {placeholder && <figure class="testimonial-placeholder">
+      <p class="placeholder-note">Reviewplaceholder · alleen in deze ontwikkelpreview</p>
+      <blockquote><p>Hier komt een klant aan het woord. Over het dagelijkse werk, de oplossing en de samenwerking.</p></blockquote>
+      <figcaption>
+        <img src="/images/review-placeholder.webp" width="72" height="72" loading="lazy" alt="Voorbeeldportret; dit is geen klant van Peak Automations" />
+        <div><strong>Naam van de klant</strong><span>Functie · Bedrijf</span><p>Goedgekeurde quote en klantfoto nog aan te leveren.</p></div>
+      </figcaption>
+    </figure>}
+    </div>
+  </div>
+</section>}
+<style>
+  .testimonial-section { padding-block: 72px; border-block: 1px solid var(--border); background: var(--surface); }
+  .testimonial-inner { display: grid; grid-template-columns: .75fr 1.5fr; gap: clamp(40px, 7vw, 100px); }
+  h2 { font-size: clamp(28px, 2.8vw, 40px); }
+  figure { margin: 0; }
+  figure + figure { border-top: 1px solid var(--border); padding-top: 40px; margin-top: 40px; }
+  blockquote { margin: 0 0 34px; }
+  blockquote p { font-size: clamp(28px, 3vw, 42px); line-height: 1.3; letter-spacing: -.025em; max-width: 30ch; text-wrap: pretty; }
+  figcaption { display: flex; align-items: center; gap: 18px; }
+  figcaption img { width: 72px; height: 72px; object-fit: cover; border-radius: 50%; flex-shrink: 0; }
+  figcaption strong { font-size: 17px; font-weight: 500; }
+  figcaption span, figcaption p { display: block; font-size: 13px; color: var(--muted); }
+  figcaption .text-link { margin-top: 12px; color: var(--accent); }
+  .placeholder-note { color: var(--accent); font-size: 12px; margin-bottom: 22px; }
+  @media (max-width: 600px) { .testimonial-section { padding-block: 48px; } .testimonial-inner { grid-template-columns: 1fr; gap: 32px; } blockquote p { font-size: 29px; } figcaption img { width: 64px; height: 64px; } }
+</style>

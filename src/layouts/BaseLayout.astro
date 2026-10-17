@@ -1,0 +1,63 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../content/site';
+import '../styles/global.css';
+interface Props { title?: string; description?: string; noindex?: boolean; }
+const { title = 'AI-consultancy & agentic automatisering', description = site.description, noindex = false } = Astro.props;
+const fullTitle = `${title} | ${site.name}`;
+// File-format builds may expose /index.html or /contact.html at build time.
+// Public URLs and the sitemap use extensionless routes on Netlify.
+const canonicalPath = Astro.url.pathname.replace(/\/index(?:\.html)?$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const canonical = new URL(canonicalPath, site.url);
+const schema = { '@context': 'https://schema.org', '@type': 'Organization', name: site.name, legalName: site.company, taxID: site.vat, url: site.url, logo: new URL('/images/logo_volledig_wit.svg', site.url).href, email: site.email, telephone: site.phone, sameAs: [site.linkedin] };
+---
+<!doctype html>
+<html lang="nl-BE">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#040404" />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/images/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/images/app-icon.png" />
+    <link rel="preload" href="/images/clashgrotesk-regular.otf" as="font" type="font/otf" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="nl_BE" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/images/social-share.jpg', site.url)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Peak Automations — AI-consultancy en agentic automatisering" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Naar de inhoud</a>
+    <Header />
+    <main id="main" tabindex="-1"><slot /></main>
+    <Footer />
+  </body>
+</html>
+<script>
+  import { track } from '../scripts/analytics';
+  document.addEventListener('click', event => {
+    const target = event.target instanceof Element ? event.target.closest('a') : null;
+    if (!target) return;
+    const href = target.getAttribute('href') || '';
+    const location = target.closest('header') ? 'navigation' : target.closest('footer') ? 'footer' : target.closest('section')?.id || 'page';
+    if (href.startsWith('mailto:')) track('email_click', { location });
+    else if (href.startsWith('tel:')) track('phone_click', { location });
+    else if (href.startsWith('/cases/')) track('case_click', { location, target: href.split('?')[0].split('#')[0] });
+    else if (href === '#contact' || href.startsWith('/contact')) track('primary_cta_click', { location });
+  });
+  document.querySelectorAll('video[data-demo]').forEach(video => {
+    video.addEventListener('play', () => track('demo_started', { location: 'praktijkvoorbeeld' }), { once: true });
+  });
+</script>

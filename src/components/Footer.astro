@@ -1,0 +1,11 @@
+---
+import { site, navigation } from '../content/site';
+---
+<footer class="site-footer">
+  <div class="container footer-top">
+    <a href="/" class="footer-brand" aria-label="Peak Automations — startpagina"><img src="/images/peak_logo_full_black.svg" width="240" height="58" loading="lazy" alt="Peak Automations" /></a>
+    <div><p class="footer-label">Ontdek Peak</p>{navigation.map(link => <a href={link.href}>{link.label}</a>)}</div>
+    <div><p class="footer-label">Een eerste gesprek</p><a href={`mailto:${site.email}`}>{site.email}</a><a href={`tel:${site.phone}`}>{site.phoneLabel}</a><a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <span class="sr-only">(opent in een nieuw tabblad)</span></a></div>
+  </div>
+  <div class="container footer-bottom"><span>© {new Date().getFullYear()} {site.company} · {site.vat}</span><span>AI-consultancy. Van inzicht tot uitvoering.</span><a href="/privacy">Privacy</a></div>
+</footer>

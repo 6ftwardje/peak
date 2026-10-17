@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../content/site';
+---
+<BaseLayout title="Bespreek je proces" description="Bespreek je AI-vraag of automatiseringsidee met Maxim van Peak Automations. Vertel waar je team vastloopt en ontdek een logische eerste stap.">
+  <section class="container contact-page">
+    <div class="contact-info"><h1>Vertel ons<br />waar het <span>vastloopt.</span></h1><p>Een terugkerende taak, een proces dat blijft hangen of een eerste AI-idee. We denken graag met je mee.</p><div class="contact-person"><img src="/images/1726411517872.webp" width="80" height="80" alt="" /><div><h2>{site.contactName}</h2><span>Je aanspreekpunt bij Peak</span></div></div><a class="contact-direct" href={`mailto:${site.email}`}>{site.email}</a><a class="contact-direct" href={`tel:${site.phone}`}>{site.phoneLabel}</a><p class="contact-expectation">Tijdens een kennismaking bespreken we je werking en de mogelijke eerste stap. Scope, timing en budget bepalen we samen.</p></div>
+    <ContactForm location="contact-page" />
+  </section>
+</BaseLayout>

@@ -1,0 +1,96 @@
+---
+import Arrow from './Arrow.astro';
+import { site, services } from '../content/site';
+interface Props { location?: string; }
+const { location = 'contact' } = Astro.props;
+---
+    <div class="contact-form-wrap" data-contact-form data-location={location}>
+      <form name="wf-form-Formulier" id="contact-form" method="POST" action="/bedankt" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="wf-form-Formulier" />
+        <p class="honeypot" aria-hidden="true"><label>Laat dit veld leeg<input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+        <input type="hidden" name="utm_source" /><input type="hidden" name="utm_medium" /><input type="hidden" name="utm_campaign" />
+        <p class="form-note">Velden met * zijn verplicht.</p>
+        <div class="form-grid">
+          <div class="field"><label for="name">Je naam *</label><input id="name" name="Naam" autocomplete="name" maxlength="256" required /></div>
+          <div class="field"><label for="company">Bedrijf</label><input id="company" name="Bedrijf" autocomplete="organization" maxlength="256" /></div>
+          <div class="field"><label for="email">Zakelijk e-mailadres *</label><input id="email" name="email" type="email" autocomplete="email" maxlength="256" required /></div>
+          <div class="field"><label for="phone">Telefoon <span>(optioneel)</span></label><input id="phone" name="Telefoonnummer" type="tel" autocomplete="tel" maxlength="40" /></div>
+          <div class="field field-full"><label for="interest">Waar wil je over spreken?</label><select id="interest" name="Interesse"><option value="">Ik wil het samen verkennen</option>{services.map(service => <option value={service.id}>{service.title}</option>)}</select></div>
+          <div class="field field-full"><label for="context">Waar loopt je team tegenaan? *</label><textarea id="context" name="Context" rows="4" maxlength="5000" required placeholder="Bijvoorbeeld: aanvragen uit onze mailbox worden vandaag nog handmatig overgetypt in ons CRM."></textarea></div>
+        </div>
+        <p class="form-note form-context-note">Een korte omschrijving volstaat. Deel hier geen wachtwoorden, gevoelige gegevens of klantdossiers.</p>
+        <p class="form-privacy">We gebruiken je gegevens om je aanvraag te behandelen. <a href="/privacy">Meer over privacy</a>.</p>
+        <button class="button" type="submit"><span data-submit-label>Verstuur je bericht</span><Arrow /></button>
+        <p class="sr-only" data-form-status role="status"></p>
+        <div id="form-error" class="form-message form-error" role="alert" tabindex="-1" hidden>We konden de ontvangst van je bericht niet bevestigen. Je invoer blijft bewaard. Probeer opnieuw of mail naar <a href={`mailto:${site.email}`}>{site.email}</a>.</div>
+      </form>
+      <div id="form-success" class="form-message form-success" role="status" tabindex="-1" hidden><h2>Bedankt voor je bericht.</h2><p>Je aanvraag is ontvangen. Maxim neemt contact met je op om je proces en een mogelijke eerste stap te bespreken.</p><a class="text-link" href="/cases">Ontdek intussen onze projecten<Arrow /></a></div>
+      <noscript><p class="form-note">Je kunt het formulier ook zonder JavaScript versturen. Na verzending kom je op de bedankpagina.</p></noscript>
+    </div>
+<script>
+  import { track } from '../scripts/analytics';
+  document.querySelectorAll<HTMLElement>('[data-contact-form]').forEach(wrapper => {
+    const form = wrapper.querySelector<HTMLFormElement>('#contact-form');
+    const success = wrapper.querySelector<HTMLElement>('#form-success');
+    const failure = wrapper.querySelector<HTMLElement>('#form-error');
+    const submit = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const label = form?.querySelector<HTMLElement>('[data-submit-label]');
+    const params = new URLSearchParams(window.location.search);
+    const interest = form?.querySelector<HTMLSelectElement>('#interest');
+    const requestedInterest = params.get('interesse');
+    if (interest && requestedInterest && Array.from(interest.options).some(option => option.value === requestedInterest)) interest.value = requestedInterest;
+    // Capture only campaign fields on this contact URL; no cookies or persistent tracking.
+    for (const key of ['utm_source', 'utm_medium', 'utm_campaign']) {
+      const field = form?.querySelector<HTMLInputElement>(`[name="${key}"]`);
+      if (field) field.value = (params.get(key) || '').slice(0, 200);
+    }
+    const requiredMessages: Record<string, string> = { Naam: 'Vul je naam in.', email: 'Vul je e-mailadres in.', Context: 'Vertel ons waar je team tegenaan loopt.' };
+    form?.addEventListener('invalid', event => {
+      const field = event.target;
+      if (!(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement)) return;
+      field.setCustomValidity('');
+      if (field.validity.valueMissing) field.setCustomValidity(requiredMessages[field.name] || 'Vul dit veld in.');
+      else if (field instanceof HTMLInputElement && field.type === 'email' && field.validity.typeMismatch) field.setCustomValidity('Vul een geldig e-mailadres in, bijvoorbeeld naam@bedrijf.be.');
+    }, true);
+    form?.addEventListener('input', event => {
+      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) event.target.setCustomValidity('');
+    });
+    if (form && submit && label && success && failure) {
+      let pending = false;
+      form.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (pending || !form.reportValidity()) return;
+        pending = true;
+        submit.disabled = true;
+        form.setAttribute('aria-busy', 'true');
+        label.textContent = 'Je bericht wordt verstuurd…';
+        const status = wrapper.querySelector<HTMLElement>('[data-form-status]');
+        if (status) status.textContent = 'Je bericht wordt verstuurd.';
+        failure.hidden = true;
+        const body = new URLSearchParams();
+        new FormData(form).forEach((value, key) => body.set(key, String(value)));
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 15000);
+        try {
+          const response = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString(), signal: controller.signal });
+          if (!response.ok) throw new Error('Versturen mislukt');
+          track('form_success', { location: wrapper.dataset.location || 'contact' });
+          form.hidden = true;
+          success.hidden = false;
+          success.focus();
+        } catch {
+          track('form_error', { location: wrapper.dataset.location || 'contact' });
+          failure.hidden = false;
+          failure.focus();
+        } finally {
+          window.clearTimeout(timeout);
+          if (status) status.textContent = '';
+          pending = false;
+          submit.disabled = false;
+          label.textContent = 'Verstuur je bericht';
+          form.removeAttribute('aria-busy');
+        }
+      });
+    }
+  });
+</script>
